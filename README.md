@@ -9,7 +9,7 @@
 
 **Passkey-based wallet creation and gasless transactions on Solana**
 
-*No seed phrases. Just biometrics.* 🚀
+_No seed phrases. Just biometrics._ 🚀
 
 [Live Demo](https://lazorkit-lovat.vercel.app) • [Documentation](#-tutorials) • [Quick Start](#-quick-start)
 
@@ -19,14 +19,77 @@
 
 ## ✨ Features
 
-| Feature | Description |
-|---------|-------------|
+| Feature                       | Description                                                     |
+| ----------------------------- | --------------------------------------------------------------- |
 | 🔑 **Passkey Authentication** | Create Solana wallets using Face ID, Touch ID, or Windows Hello |
-| ⛽ **Gasless Transactions** | Send SOL without paying gas fees (Paymaster covers costs) |
-| 💳 **Payment Widget** | Drop-in payment component for merchants |
-| 🏦 **Smart Wallet** | Program Derived Address (PDA) derived from your passkey |
-| 💾 **Session Persistence** | Stay connected across page refreshes |
-| ⚡ **Modern Stack** | Built with Next.js 16, TypeScript, and Tailwind CSS |
+| ⛽ **Gasless Transactions**   | Send SOL without paying gas fees (Paymaster covers costs)       |
+| 💳 **Payment Widget**         | Drop-in payment component for merchants                         |
+| 🏦 **Smart Wallet**           | Program Derived Address (PDA) derived from your passkey         |
+| 💾 **Session Persistence**    | Stay connected across page refreshes                            |
+| ⚡ **Modern Stack**           | Built with Next.js 16, TypeScript, and Tailwind CSS             |
+
+---
+
+## 💡 Why LazorKit?
+
+<div align="center">
+
+### The Problem with Traditional Wallets
+
+</div>
+
+<table>
+<tr>
+<td align="center" width="50%">
+<h3>❌ Traditional Wallets</h3>
+</td>
+<td align="center" width="50%">
+<h3>✅ LazorKit</h3>
+</td>
+</tr>
+<tr>
+<td>
+
+| Pain Point | Issue |
+|------------|-------|
+| 📝 **Seed Phrases** | 12-24 words to backup & secure |
+| 🔑 **Key Management** | Complex, error-prone |
+| 💸 **Gas Fees** | Users pay for every transaction |
+| 😰 **Recovery** | Lose phrase = lose everything |
+| 🚪 **Onboarding** | High friction, many steps |
+
+</td>
+<td>
+
+| Solution | Benefit |
+|----------|---------|
+| 🚫 **No Seed Phrases** | Passkeys secured by device |
+| 👆 **Biometric Auth** | Face ID, Touch ID, Windows Hello |
+| ⛽ **Gasless Options** | Paymaster covers fees |
+| 🔄 **Recoverable** | Passkeys sync via iCloud/Google |
+| ⚡ **One-Tap Onboarding** | Familiar, instant UX |
+
+</td>
+</tr>
+</table>
+
+<div align="center">
+
+### 🎯 Perfect For
+
+<table>
+<tr>
+<td align="center">🎮<br/><strong>Games</strong></td>
+<td align="center">📱<br/><strong>Consumer Apps</strong></td>
+<td align="center">💰<br/><strong>DeFi Onboarding</strong></td>
+<td align="center">🛒<br/><strong>Merchant Payments</strong></td>
+<td align="center">🌐<br/><strong>Web3 Newcomers</strong></td>
+</tr>
+</table>
+
+*Any app targeting non-crypto-native users*
+
+</div>
 
 ---
 
@@ -34,26 +97,55 @@
 
 > **[https://lazorkit-lovat.vercel.app](https://lazorkit-lovat.vercel.app)**
 
-| Page | Description |
-|------|-------------|
-| 🏠 [Home](https://lazorkit-lovat.vercel.app) | Overview and navigation |
-| 🔐 [Passkey Login](https://lazorkit-lovat.vercel.app/passkey-login) | Create wallet with biometrics |
-| 💸 [Gasless Transfer](https://lazorkit-lovat.vercel.app/gasless-transfer) | Send SOL without gas fees |
-| 🛒 [Payment Widget](https://lazorkit-lovat.vercel.app/payment-widget) | Merchant payment component |
-| 📱 [Cross-Device](https://lazorkit-lovat.vercel.app/cross-device) | Access wallet from any device |
+| Page                                                                      | Description                   |
+| ------------------------------------------------------------------------- | ----------------------------- |
+| 🏠 [Home](https://lazorkit-lovat.vercel.app)                              | Overview and navigation       |
+| 🔐 [Passkey Login](https://lazorkit-lovat.vercel.app/passkey-login)       | Create wallet with biometrics |
+| 💸 [Gasless Transfer](https://lazorkit-lovat.vercel.app/gasless-transfer) | Send SOL without gas fees     |
+| 🛒 [Payment Widget](https://lazorkit-lovat.vercel.app/payment-widget)     | Merchant payment component    |
+| 📱 [Cross-Device](https://lazorkit-lovat.vercel.app/cross-device)         | Access wallet from any device |
+
+### 📸 Screenshots
+
+<table>
+<tr>
+<td align="center" width="50%">
+<strong>Passkey Authentication</strong><br/>
+<img src="public/screenshots/passkey-login.png" alt="Passkey Login" width="400"/>
+<br/><em>One-tap biometric wallet creation</em>
+</td>
+<td align="center" width="50%">
+<strong>Gasless Transfer</strong><br/>
+<img src="public/screenshots/gasless-transfer.png" alt="Gasless Transfer" width="400"/>
+<br/><em>Send SOL without paying gas fees</em>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<strong>Payment Widget</strong><br/>
+<img src="public/screenshots/payment-widget.png" alt="Payment Widget" width="400"/>
+<br/><em>Drop-in payment component</em>
+</td>
+<td align="center" width="50%">
+<strong>Transaction Success</strong><br/>
+<img src="public/screenshots/transaction-success.png" alt="Transaction Success" width="400"/>
+<br/><em>Real-time confirmation with Explorer link</em>
+</td>
+</tr>
+</table>
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| ⚛️ Next.js | 16.1.1 | React framework with App Router |
-| 📘 TypeScript | 5.x | Type safety |
-| 🎨 Tailwind CSS | 4.x | Styling |
-| 🔐 @lazorkit/wallet | 2.0.1 | Passkey wallet SDK |
-| ⛓️ @solana/web3.js | 1.98.4 | Solana blockchain interaction |
-| ⚓ @coral-xyz/anchor | 0.32.1 | Solana program framework |
+| Technology           | Version | Purpose                         |
+| -------------------- | ------- | ------------------------------- |
+| ⚛️ Next.js           | 16.1.1  | React framework with App Router |
+| 📘 TypeScript        | 5.x     | Type safety                     |
+| 🎨 Tailwind CSS      | 4.x     | Styling                         |
+| 🔐 @lazorkit/wallet  | 2.0.1   | Passkey wallet SDK              |
+| ⛓️ @solana/web3.js   | 1.98.4  | Solana blockchain interaction   |
+| ⚓ @coral-xyz/anchor | 0.32.1  | Solana program framework        |
 
 ---
 
@@ -61,12 +153,12 @@
 
 Before you begin, ensure you have:
 
-| Requirement | Details |
-|-------------|---------|
-| 📦 **Node.js 20+** | [Download here](https://nodejs.org/) |
-| 📦 **pnpm 8+** | `npm install -g pnpm` |
-| 🌐 **WebAuthn Browser** | Chrome 108+, Safari 16+, Firefox 122+, Edge 108+ |
-| 👆 **Biometrics** | Face ID, Touch ID, Windows Hello, or Security Key |
+| Requirement             | Details                                           |
+| ----------------------- | ------------------------------------------------- |
+| 📦 **Node.js 20+**      | [Download here](https://nodejs.org/)              |
+| 📦 **pnpm 8+**          | `npm install -g pnpm`                             |
+| 🌐 **WebAuthn Browser** | Chrome 108+, Safari 16+, Firefox 122+, Edge 108+  |
+| 👆 **Biometrics**       | Face ID, Touch ID, Windows Hello, or Security Key |
 
 ---
 
@@ -147,6 +239,67 @@ pnpm dev
 
 ---
 
+## 📖 Quick API Reference
+
+### Hooks
+
+```typescript
+import { useBalance, usePayment } from "@/hooks";
+
+// Fetch wallet balance (auto-refreshes every 30s)
+const { balance, isLoading, refresh } = useBalance(address);
+
+// Process payments with status tracking
+const { pay, status, result, error, reset } = usePayment({
+  merchantAddress: "YOUR_WALLET",
+  onPaymentSuccess: (result) => console.log(result.signature),
+});
+await pay(0.05, "USDC"); // Gasless payment
+```
+
+### Components
+
+```typescript
+import { ConnectButton, PaymentWidget, ErrorBoundary } from "@/components";
+
+// Wallet connection (passkey auth)
+<ConnectButton />
+
+// Drop-in payment form
+<PaymentWidget
+  merchantAddress="YOUR_WALLET"
+  merchantName="Coffee Shop"
+  amount={0.05}
+  enableGasless
+/>
+
+// Error handling wrapper
+<ErrorBoundary onError={(e) => logError(e)}>
+  <YourApp />
+</ErrorBoundary>
+```
+
+### Utilities
+
+```typescript
+import {
+  getExplorerUrl,
+  truncateAddress,
+  formatSol,
+  confirmTransaction,
+} from "@/lib";
+
+getExplorerUrl("5xK9p...");        // Solscan transaction URL
+truncateAddress("7xKp...", 4);     // "7xKp...3mNq"
+formatSol(1_500_000_000);          // "1.50"
+await confirmTransaction({         // Poll until confirmed
+  signature: "5xK9p...",
+  timeout: 30000,
+});
+```
+
+---
+
 ## 📚 Tutorials
 
 <table>
@@ -167,11 +320,11 @@ Passkey created in secure enclave
 Smart wallet derived ✨
 ```
 
-| Concept | Status |
-|---------|--------|
-| WebAuthn/FIDO2 passkey | ✅ |
-| Smart wallet derivation | ✅ |
-| Session persistence | ✅ |
+| Concept                 | Status |
+| ----------------------- | ------ |
+| WebAuthn/FIDO2 passkey  | ✅     |
+| Smart wallet derivation | ✅     |
+| Session persistence     | ✅     |
 
 </td>
 <td width="50%">
@@ -188,11 +341,11 @@ Paymaster sponsors gas
 No SOL needed for fees! 🎉
 ```
 
-| Concept | Status |
-|---------|--------|
-| Transfer instructions | ✅ |
-| Paymaster-sponsored tx | ✅ |
-| Fee token selection | ✅ |
+| Concept                | Status |
+| ---------------------- | ------ |
+| Transfer instructions  | ✅     |
+| Paymaster-sponsored tx | ✅     |
+| Fee token selection    | ✅     |
 
 </td>
 </tr>
@@ -211,11 +364,11 @@ User pays with passkey
 Receive SOL instantly 💰
 ```
 
-| Concept | Status |
-|---------|--------|
-| Widget integration | ✅ |
-| Merchant callbacks | ✅ |
-| Real-time status | ✅ |
+| Concept            | Status |
+| ------------------ | ------ |
+| Widget integration | ✅     |
+| Merchant callbacks | ✅     |
+| Real-time status   | ✅     |
 
 </td>
 <td width="50%">
@@ -232,11 +385,11 @@ Passkey syncs via iCloud
 Same wallet on MacBook 🔄
 ```
 
-| Concept | Status |
-|---------|--------|
-| iCloud/Google/Windows sync | ✅ |
-| Multi-device access | ✅ |
-| No seed phrase needed | ✅ |
+| Concept                    | Status |
+| -------------------------- | ------ |
+| iCloud/Google/Windows sync | ✅     |
+| Multi-device access        | ✅     |
+| No seed phrase needed      | ✅     |
 
 </td>
 </tr>
@@ -246,6 +399,7 @@ Same wallet on MacBook 🔄
 <summary><b>📝 Quick Code Examples</b></summary>
 
 #### 🔐 Passkey Login
+
 ```tsx
 import { useWallet } from "@lazorkit/wallet";
 
@@ -256,6 +410,7 @@ await connect();
 ```
 
 #### 💸 Gasless Transfer
+
 ```tsx
 const signature = await signAndSendTransaction({
   instructions: [
@@ -272,6 +427,7 @@ const signature = await signAndSendTransaction({
 ```
 
 #### 🛒 Payment Widget
+
 ```tsx
 import { PaymentWidget } from "@/components/payment";
 
@@ -281,10 +437,11 @@ import { PaymentWidget } from "@/components/payment";
   amount={0.05}
   enableGasless
   onPaymentSuccess={(result) => console.log("Paid!", result.signature)}
-/>
+/>;
 ```
 
 #### 📱 Cross-Device Session
+
 ```tsx
 // Passkeys sync automatically via platform ecosystems
 // Same passkey = Same wallet address on any device
@@ -311,7 +468,7 @@ export function Providers({ children }) {
       rpcUrl={process.env.NEXT_PUBLIC_RPC_URL}
       portalUrl={process.env.NEXT_PUBLIC_PORTAL_URL}
       paymasterConfig={{
-        paymasterUrl: process.env.NEXT_PUBLIC_PAYMASTER_URL
+        paymasterUrl: process.env.NEXT_PUBLIC_PAYMASTER_URL,
       }}
     >
       {children}
@@ -326,11 +483,11 @@ export function Providers({ children }) {
 import { useWallet } from "@lazorkit/wallet";
 
 const {
-  connect,              // 🔐 Trigger passkey creation/login
-  disconnect,           // 🚪 Clear session
-  isConnected,          // ✅ Boolean - wallet connected
-  isConnecting,         // ⏳ Boolean - connection in progress
-  smartWalletPubkey,    // 📍 PublicKey - derived wallet address
+  connect, // 🔐 Trigger passkey creation/login
+  disconnect, // 🚪 Clear session
+  isConnected, // ✅ Boolean - wallet connected
+  isConnecting, // ⏳ Boolean - connection in progress
+  smartWalletPubkey, // 📍 PublicKey - derived wallet address
   signAndSendTransaction, // ✍️ Send transactions
 } = useWallet();
 ```
@@ -339,11 +496,11 @@ const {
 
 ## 🌍 Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NEXT_PUBLIC_RPC_URL` | 🌐 Solana RPC endpoint | `https://api.devnet.solana.com` |
-| `NEXT_PUBLIC_PORTAL_URL` | 🔐 LazorKit Portal service | `https://portal.lazor.sh` |
-| `NEXT_PUBLIC_PAYMASTER_URL` | ⛽ Paymaster service | `https://kora.devnet.lazorkit.com` |
+| Variable                    | Description                | Default                            |
+| --------------------------- | -------------------------- | ---------------------------------- |
+| `NEXT_PUBLIC_RPC_URL`       | 🌐 Solana RPC endpoint     | `https://api.devnet.solana.com`    |
+| `NEXT_PUBLIC_PORTAL_URL`    | 🔐 LazorKit Portal service | `https://portal.lazor.sh`          |
+| `NEXT_PUBLIC_PAYMASTER_URL` | ⛽ Paymaster service       | `https://kora.devnet.lazorkit.com` |
 
 ---
 
@@ -437,13 +594,13 @@ vercel --prod
 
 ## 📚 Resources
 
-| Resource | Link |
-|----------|------|
-| 📖 LazorKit Docs | [docs.lazorkit.com](https://docs.lazorkit.com/) |
-| 💻 LazorKit GitHub | [github.com/lazor-kit](https://github.com/aspect-build/lazor-kit) |
-| 🔍 Solscan (Devnet) | [solscan.io](https://solscan.io/?cluster=devnet) |
-| 📚 Solana Web3.js | [solana-labs.github.io](https://solana-labs.github.io/solana-web3.js/) |
-| 🔐 WebAuthn Guide | [webauthn.guide](https://webauthn.guide/) |
+| Resource            | Link                                                                   |
+| ------------------- | ---------------------------------------------------------------------- |
+| 📖 LazorKit Docs    | [docs.lazorkit.com](https://docs.lazorkit.com/)                        |
+| 💻 LazorKit GitHub  | [github.com/lazor-kit](https://github.com/aspect-build/lazor-kit)      |
+| 🔍 Solscan (Devnet) | [solscan.io](https://solscan.io/?cluster=devnet)                       |
+| 📚 Solana Web3.js   | [solana-labs.github.io](https://solana-labs.github.io/solana-web3.js/) |
+| 🔐 WebAuthn Guide   | [webauthn.guide](https://webauthn.guide/)                              |
 
 ---
 

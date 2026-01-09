@@ -8,7 +8,7 @@ import { RPC_URL } from "@/lib/constants";
  * Return value from useBalance hook
  * @description Provides SOL balance data and refresh controls
  */
-interface UseBalanceResult {
+export interface UseBalanceResult {
   /** Balance in SOL (human-readable), null if not loaded or error */
   balance: number | null;
   /** Balance in lamports (raw), null if not loaded or error */

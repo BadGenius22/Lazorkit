@@ -3,3 +3,4 @@ export { ConnectButton } from "./ConnectButton";
 export { WalletInfo } from "./WalletInfo";
 export { TransferForm } from "./TransferForm";
 export { Skeleton, SkeletonText, SkeletonCard } from "./Skeleton";
+export { ErrorBoundary } from "./ErrorBoundary";
