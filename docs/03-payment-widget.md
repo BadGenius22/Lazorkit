@@ -59,14 +59,6 @@ Traditional crypto payment integration requires extensive development work - bui
 <tr>
 <td width="33%" align="center">
 
-### 📱 QR Code
-
-Solana Pay compatible
-for mobile wallets
-
-</td>
-<td width="33%" align="center">
-
 ### 🔐 Passkey Auth
 
 Biometric signing
@@ -81,8 +73,6 @@ Paymaster-sponsored
 transactions
 
 </td>
-</tr>
-<tr>
 <td width="33%" align="center">
 
 ### 🎨 Customizable
@@ -91,6 +81,8 @@ Merchant branding
 amounts, callbacks
 
 </td>
+</tr>
+<tr>
 <td width="33%" align="center">
 
 ### 📊 Real-time
@@ -105,6 +97,14 @@ and error states
 
 Works on all
 device sizes
+
+</td>
+<td width="33%" align="center">
+
+### 🔒 Secure
+
+Origin-bound credentials
+phishing resistant
 
 </td>
 </tr>
@@ -136,7 +136,6 @@ function CheckoutPage() {
 
 > **That's it!** The widget handles:
 > - Wallet connection (creates passkey if new user)
-> - QR code generation for mobile payments
 > - Transaction building and signing
 > - Status updates and error handling
 
@@ -182,7 +181,6 @@ export default function CheckoutPage() {
         description="Premium Subscription (1 month)"
         amount={9.99}
         currency="SOL"
-        showQR={true}
         enableGasless={true}
         onPaymentSuccess={handlePaymentSuccess}
         onPaymentError={handlePaymentError}
@@ -223,7 +221,6 @@ export default function CheckoutPage() {
 
 | Prop | Type | Default | Description |
 |------|:----:|:-------:|-------------|
-| `showQR` | `boolean` | `true` | Display Solana Pay QR code |
 | `enableGasless` | `boolean` | `true` | Allow gasless (USDC fee) payments |
 
 ### Callbacks
@@ -300,7 +297,7 @@ interface PaymentError {
 
 ### 🛒 E-commerce Checkout
 
-Fixed amount, hide QR for desktop:
+Fixed amount for orders:
 
 ```tsx
 <PaymentWidget
@@ -308,7 +305,6 @@ Fixed amount, hide QR for desktop:
   merchantName="Online Store"
   description="Order #12345"
   amount={29.99}
-  showQR={false}
   onPaymentSuccess={(result) => {
     updateOrder(orderId, {
       paid: true,
@@ -323,7 +319,7 @@ Fixed amount, hide QR for desktop:
 
 ### 💝 Donation / Tip Jar
 
-Custom amount, show QR for mobile:
+Custom amount with gasless:
 
 ```tsx
 <PaymentWidget
@@ -331,7 +327,6 @@ Custom amount, show QR for mobile:
   merchantName="Support My Work"
   description="Donation"
   allowCustomAmount={true}
-  showQR={true}
   enableGasless={true}
 />
 ```
@@ -352,7 +347,6 @@ Fixed amount with reference:
   description="Latte (Large)"
   amount={0.05}
   reference={`POS-${Date.now()}`}
-  showQR={true}
 />
 ```
 
@@ -443,30 +437,6 @@ Fixed recurring amount, gasless:
   └──────────┘        └──────────┘        └──────────┘
 ```
 
-### QR Code Flow (External Wallet)
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         QR CODE PAYMENT FLOW                                │
-└─────────────────────────────────────────────────────────────────────────────┘
-
-  1. Scan QR          2. Wallet Opens      3. Confirm
-       │                    │                   │
-       ▼                    ▼                   ▼
-  ┌──────────┐        ┌──────────┐        ┌──────────┐
-  │   📱     │  ───►  │ Phantom/ │  ───►  │   ✅     │
-  │  Scan    │        │ Solflare │        │ Approve  │
-  │   QR     │        │  Opens   │        │   Tx     │
-  └──────────┘        └──────────┘        └──────────┘
-                                               │
-                                               ▼
-                                        ┌──────────┐
-                                        │   💸     │
-                                        │ Payment  │
-                                        │  Sent!   │
-                                        └──────────┘
-```
-
 ---
 
 ## Customization Examples
@@ -487,7 +457,6 @@ Fixed recurring amount, gasless:
 <PaymentWidget
   merchantAddress="..."
   amount={0.01}
-  showQR={false}
   enableGasless={false}
 />
 ```
@@ -504,7 +473,6 @@ Fixed recurring amount, gasless:
   currency="SOL"
   reference={`SUB-${userId}-${Date.now()}`}
   allowCustomAmount={false}
-  showQR={true}
   enableGasless={true}
   onPaymentStart={() => setLoading(true)}
   onPaymentSuccess={handleSuccess}
@@ -532,9 +500,6 @@ Fixed recurring amount, gasless:
 │  │  AmountSection                                            │  │
 │  │  ├── FixedAmount OR CustomAmountInput                     │  │
 │  │  └── CurrencySelector (if enableGasless)                  │  │
-│  └───────────────────────────────────────────────────────────┘  │
-│  ┌───────────────────────────────────────────────────────────┐  │
-│  │  QRCodeSection (if showQR && amount > 0)                  │  │
 │  └───────────────────────────────────────────────────────────┘  │
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │  PaymentStatus (processing/success/error)                 │  │
@@ -596,30 +561,6 @@ const { status, result, error, pay, reset } = usePayment({
 
 ---
 
-## Solana Pay QR Code
-
-The QR code is Solana Pay compatible, works with:
-
-| Wallet | Support |
-|--------|:-------:|
-| Phantom | ✅ |
-| Solflare | ✅ |
-| Backpack | ✅ |
-| Any Solana Pay wallet | ✅ |
-
-### QR URL Format
-
-```
-solana:<recipient>?amount=<amount>&label=<label>&message=<message>
-```
-
-**Example:**
-```
-solana:7xKp...3mNq?amount=0.05&label=Coffee%20Shop&message=Premium%20Coffee
-```
-
----
-
 ## Common Issues
 
 <details>
@@ -641,20 +582,20 @@ solana:7xKp...3mNq?amount=0.05&label=Coffee%20Shop&message=Premium%20Coffee
 </details>
 
 <details>
-<summary><b>🟡 QR code not scanning</b></summary>
-
-**Cause:** Amount is 0 or invalid.
-
-**Solution:** Set a valid positive amount for QR generation.
-
-</details>
-
-<details>
 <summary><b>🟠 Gasless payment failing</b></summary>
 
 **Cause:** Paymaster rate limit or service issue.
 
 **Solution:** Set `enableGasless={false}` as fallback.
+
+</details>
+
+<details>
+<summary><b>🔴 Transaction stuck in processing</b></summary>
+
+**Cause:** Network congestion or RPC issues.
+
+**Solution:** Wait for timeout, then retry. Check browser console for details.
 
 </details>
 
@@ -723,7 +664,6 @@ Now that you've integrated the Payment Widget, proceed to **Tutorial 4: Cross-De
 |----------|------|
 | Solana Pay Specification | [docs.solanapay.com](https://docs.solanapay.com/) |
 | LazorKit Documentation | [docs.lazorkit.com](https://docs.lazorkit.com/) |
-| QR Code Best Practices | [qrcode.com](https://www.qrcode.com/en/howto/) |
 
 ---
 

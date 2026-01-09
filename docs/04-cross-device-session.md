@@ -593,7 +593,6 @@ Check these common issues:
 Cross-ecosystem sync (e.g., Apple to Android) is limited. Options:
 - Use Chrome with Google account on both platforms
 - Use a hardware security key (YubiKey) as a portable passkey
-- Use QR code authentication (scan from your phone)
 
 </details>
 

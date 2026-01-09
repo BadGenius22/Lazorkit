@@ -131,7 +131,7 @@ export default function Home() {
             Tutorial 3: Payment Widget
           </h2>
           <p className="mt-2 text-gray-600">
-            Drop-in payment component for merchants. Accept SOL with QR codes and
+            Drop-in payment component for merchants. Accept SOL payments with
             passkey authentication.
           </p>
           <div className="mt-4 flex items-center text-sm font-medium text-amber-600">
