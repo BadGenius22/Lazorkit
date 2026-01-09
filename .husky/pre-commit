@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Prevent committing .env files with secrets
+if git diff --cached --name-only | grep -qE '\.env$|\.env\.local$|\.env\.production$'; then
+  echo "ERROR: Attempting to commit .env file with potential secrets"
+  echo "If this is intentional, use: git commit --no-verify"
+  exit 1
+fi
+
+# Check for common secret patterns in staged files
+if git diff --cached | grep -qiE '(api_key|secret|password|private_key)\s*=\s*[^$]'; then
+  echo "WARNING: Potential secret detected in staged changes"
+  echo "Please review before committing"
+fi
+
+# Run lint
+pnpm lint
