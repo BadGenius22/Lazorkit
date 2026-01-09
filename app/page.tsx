@@ -16,7 +16,7 @@ export default function Home() {
       </div>
 
       {/* Feature Cards */}
-      <div className="mt-12 grid gap-6 sm:grid-cols-2">
+      <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {/* Tutorial 1 */}
         <Link
           href="/passkey-login"
@@ -91,6 +91,51 @@ export default function Home() {
           </p>
           <div className="mt-4 flex items-center text-sm font-medium text-green-600">
             Try It Out
+            <svg
+              className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </div>
+        </Link>
+
+        {/* Tutorial 3 */}
+        <Link
+          href="/payment-widget"
+          className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:border-amber-500 hover:shadow-md sm:col-span-2 lg:col-span-1"
+        >
+          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+              />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-900 group-hover:text-amber-600">
+            Tutorial 3: Payment Widget
+          </h2>
+          <p className="mt-2 text-gray-600">
+            Drop-in payment component for merchants. Accept SOL with QR codes and
+            passkey authentication.
+          </p>
+          <div className="mt-4 flex items-center text-sm font-medium text-amber-600">
+            Explore Widget
             <svg
               className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
               fill="none"

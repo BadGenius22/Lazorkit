@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/passkey-login", label: "Passkey Login" },
   { href: "/gasless-transfer", label: "Gasless Transfer" },
+  { href: "/payment-widget", label: "Payment Widget" },
 ];
 
 export function Navbar() {
