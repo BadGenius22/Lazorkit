@@ -57,7 +57,8 @@ export function PaymentWidget({
 
   // Local state for custom amount
   const [customAmount, setCustomAmount] = useState<string>(initialAmount?.toString() || "");
-  const [selectedCurrency, setSelectedCurrency] = useState<PaymentCurrency>(initialCurrency);
+  // Fee payment method: USDC = gasless, SOL = pay fees with SOL
+  const [feeMethod, setFeeMethod] = useState<PaymentCurrency>(enableGasless ? "USDC" : "SOL");
 
   // Payment hook
   const { status, result, error, isProcessing, pay, reset } = usePayment({
@@ -77,14 +78,14 @@ export function PaymentWidget({
     return initialAmount || 0;
   }, [allowCustomAmount, customAmount, initialAmount]);
 
-  // Generate Solana Pay URL for QR code
+  // Generate Solana Pay URL for QR code (always SOL - that's the payment currency)
   const solanaPayUrl = useMemo(() => {
     if (!merchantAddress || finalAmount <= 0) return null;
     try {
       return createSolanaPayUrl({
         recipient: merchantAddress,
         amount: finalAmount,
-        currency: selectedCurrency,
+        currency: "SOL",
         label: merchantName,
         message: description,
         reference,
@@ -92,12 +93,12 @@ export function PaymentWidget({
     } catch {
       return null;
     }
-  }, [merchantAddress, finalAmount, selectedCurrency, merchantName, description, reference]);
+  }, [merchantAddress, finalAmount, merchantName, description, reference]);
 
-  // Handle payment
+  // Handle payment (always pay in SOL, feeMethod determines how fees are paid)
   const handlePay = () => {
     if (finalAmount <= 0) return;
-    pay(finalAmount, enableGasless ? "USDC" : selectedCurrency, reference);
+    pay(finalAmount, feeMethod, reference);
   };
 
   // Handle retry
@@ -152,7 +153,7 @@ export function PaymentWidget({
                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 pr-16 text-lg font-medium text-gray-900 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500 disabled:bg-gray-100"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-                <span className="text-gray-500">{selectedCurrency}</span>
+                <span className="text-gray-500">SOL</span>
               </div>
             </div>
           </div>
@@ -160,22 +161,22 @@ export function PaymentWidget({
           <div className="rounded-lg bg-gray-50 p-4 text-center">
             <p className="text-sm text-gray-500">Amount to pay</p>
             <p className="mt-1 text-3xl font-bold text-gray-900">
-              {formatPaymentAmount(finalAmount, selectedCurrency)}
+              {formatPaymentAmount(finalAmount, "SOL")}
             </p>
           </div>
         )}
 
-        {/* Currency Toggle (if gasless enabled) */}
+        {/* Fee Payment Method Toggle (if gasless enabled) */}
         {enableGasless && (
           <div className="mt-4">
             <label className="block text-sm font-medium text-gray-700">Pay fees with</label>
             <div className="mt-2 flex gap-2">
               <button
                 type="button"
-                onClick={() => setSelectedCurrency("USDC")}
+                onClick={() => setFeeMethod("USDC")}
                 disabled={isProcessing}
                 className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
-                  selectedCurrency === "USDC"
+                  feeMethod === "USDC"
                     ? "border-green-500 bg-green-50 text-green-700"
                     : "border-gray-300 text-gray-700 hover:bg-gray-50"
                 } disabled:opacity-50`}
@@ -184,10 +185,10 @@ export function PaymentWidget({
               </button>
               <button
                 type="button"
-                onClick={() => setSelectedCurrency("SOL")}
+                onClick={() => setFeeMethod("SOL")}
                 disabled={isProcessing}
                 className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
-                  selectedCurrency === "SOL"
+                  feeMethod === "SOL"
                     ? "border-purple-500 bg-purple-50 text-purple-700"
                     : "border-gray-300 text-gray-700 hover:bg-gray-50"
                 } disabled:opacity-50`}
