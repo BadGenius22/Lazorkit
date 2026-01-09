@@ -12,7 +12,6 @@ export default function PaymentWidgetPage() {
   const [config, setConfig] = useState({
     fixedAmount: true,
     amount: 0.01,
-    showQR: true,
     enableGasless: true,
   });
 
@@ -51,7 +50,6 @@ export default function PaymentWidgetPage() {
               description="Premium Coffee (Large)"
               amount={config.fixedAmount ? config.amount : undefined}
               allowCustomAmount={!config.fixedAmount}
-              showQR={config.showQR}
               enableGasless={config.enableGasless}
               onPaymentSuccess={handleSuccess}
             />
@@ -98,19 +96,6 @@ export default function PaymentWidgetPage() {
                   </div>
                 )}
               </div>
-
-              {/* Show QR */}
-              <label className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={config.showQR}
-                  onChange={(e) =>
-                    setConfig({ ...config, showQR: e.target.checked })
-                  }
-                  className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
-                />
-                <span className="text-sm text-gray-700">Show QR code</span>
-              </label>
 
               {/* Enable Gasless */}
               <label className="flex items-center gap-3">
@@ -166,9 +151,7 @@ export default function PaymentWidgetPage() {
   merchantName="Your Store"
   description="Product description"
   amount={0.05}
-  currency="SOL"
   enableGasless
-  showQR
   onPaymentSuccess={(result) => {
     console.log("Paid!", result.signature);
   }}
@@ -199,10 +182,6 @@ export default function PaymentWidgetPage() {
               <div className="flex justify-between border-b border-gray-100 pb-2">
                 <code className="text-purple-600">description</code>
                 <span className="text-gray-500">string</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <code className="text-purple-600">showQR</code>
-                <span className="text-gray-500">boolean</span>
               </div>
               <div className="flex justify-between border-b border-gray-100 pb-2">
                 <code className="text-purple-600">enableGasless</code>
@@ -260,13 +239,6 @@ export default function PaymentWidgetPage() {
               Widget Features
             </h2>
             <ul className="space-y-2 text-sm text-purple-700">
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-purple-500">✓</span>
-                <span>
-                  <strong>QR Code Support</strong> - Solana Pay compatible for
-                  mobile wallets
-                </span>
-              </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-purple-500">✓</span>
                 <span>

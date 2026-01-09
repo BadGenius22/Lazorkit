@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { QRCodeSVG } from "qrcode.react";
 import { useWallet } from "@lazorkit/wallet";
 import { usePayment, PaymentCurrency, PaymentResult, PaymentError } from "@/hooks/usePayment";
-import { createSolanaPayUrl, formatPaymentAmount } from "@/lib/solana-pay";
+import { formatPaymentAmount } from "@/lib/solana-pay";
 import { PaymentStatus } from "./PaymentStatus";
 
 export interface PaymentWidgetProps {
@@ -23,7 +22,6 @@ export interface PaymentWidgetProps {
   reference?: string;
 
   // Feature toggles
-  showQR?: boolean;
   enableGasless?: boolean;
 
   // Callbacks
@@ -45,7 +43,6 @@ export function PaymentWidget({
   merchantLogo,
   description,
   reference,
-  showQR = true,
   enableGasless = true,
   onPaymentStart,
   onPaymentSuccess,
@@ -77,23 +74,6 @@ export function PaymentWidget({
     }
     return initialAmount || 0;
   }, [allowCustomAmount, customAmount, initialAmount]);
-
-  // Generate Solana Pay URL for QR code (always SOL - that's the payment currency)
-  const solanaPayUrl = useMemo(() => {
-    if (!merchantAddress || finalAmount <= 0) return null;
-    try {
-      return createSolanaPayUrl({
-        recipient: merchantAddress,
-        amount: finalAmount,
-        currency: "SOL",
-        label: merchantName,
-        message: description,
-        reference,
-      });
-    } catch {
-      return null;
-    }
-  }, [merchantAddress, finalAmount, merchantName, description, reference]);
 
   // Handle payment (always pay in SOL, feeMethod determines how fees are paid)
   const handlePay = () => {
@@ -199,26 +179,6 @@ export function PaymentWidget({
           </div>
         )}
       </div>
-
-      {/* QR Code Section */}
-      {showQR && solanaPayUrl && status === "idle" && (
-        <div className="mb-6">
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <div className="flex justify-center">
-              <QRCodeSVG
-                value={solanaPayUrl}
-                size={180}
-                level="M"
-                includeMargin
-                className="rounded-lg"
-              />
-            </div>
-            <p className="mt-3 text-center text-xs text-gray-500">
-              Scan with Phantom, Solflare, or any Solana Pay compatible wallet
-            </p>
-          </div>
-        </div>
-      )}
 
       {/* Payment Status */}
       <PaymentStatus
