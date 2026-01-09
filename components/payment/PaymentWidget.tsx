@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Image from "next/image";
 import { useWallet } from "@lazorkit/wallet";
 import { usePayment, PaymentCurrency, PaymentResult, PaymentError } from "@/hooks/usePayment";
 import { formatPaymentAmount } from "@/lib/solana-pay";
@@ -37,7 +38,8 @@ export interface PaymentWidgetProps {
 export function PaymentWidget({
   merchantAddress,
   amount: initialAmount,
-  currency: initialCurrency = "SOL",
+  // currency prop reserved for future multi-currency support
+  currency: _currency = "SOL",
   allowCustomAmount = false,
   merchantName,
   merchantLogo,
@@ -50,6 +52,8 @@ export function PaymentWidget({
   onPaymentCancel,
   className = "",
 }: PaymentWidgetProps) {
+  // Suppress unused variable warning - currency reserved for future use
+  void _currency;
   const { isConnected } = useWallet();
 
   // Local state for custom amount
@@ -103,10 +107,13 @@ export function PaymentWidget({
       {/* Merchant Header */}
       <div className="mb-6 text-center">
         {merchantLogo && (
-          <img
+          <Image
             src={merchantLogo}
             alt={merchantName || "Merchant"}
-            className="mx-auto mb-3 h-12 w-12 rounded-full object-cover"
+            width={48}
+            height={48}
+            className="mx-auto mb-3 rounded-full object-cover"
+            unoptimized
           />
         )}
         {merchantName && (
@@ -148,13 +155,15 @@ export function PaymentWidget({
 
         {/* Fee Payment Method Toggle (if gasless enabled) */}
         {enableGasless && (
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Pay fees with</label>
-            <div className="mt-2 flex gap-2">
+          <fieldset className="mt-4">
+            <legend className="block text-sm font-medium text-gray-700">Pay fees with</legend>
+            <div className="mt-2 flex gap-2" role="group" aria-label="Fee payment method">
               <button
                 type="button"
                 onClick={() => setFeeMethod("USDC")}
                 disabled={isProcessing}
+                aria-pressed={feeMethod === "USDC"}
+                aria-label="Pay fees with USDC (Gasless option)"
                 className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
                   feeMethod === "USDC"
                     ? "border-green-500 bg-green-50 text-green-700"
@@ -167,6 +176,8 @@ export function PaymentWidget({
                 type="button"
                 onClick={() => setFeeMethod("SOL")}
                 disabled={isProcessing}
+                aria-pressed={feeMethod === "SOL"}
+                aria-label="Pay fees with SOL"
                 className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
                   feeMethod === "SOL"
                     ? "border-purple-500 bg-purple-50 text-purple-700"
@@ -176,7 +187,7 @@ export function PaymentWidget({
                 SOL
               </button>
             </div>
-          </div>
+          </fieldset>
         )}
       </div>
 

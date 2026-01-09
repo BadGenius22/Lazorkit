@@ -156,6 +156,8 @@ export function TransferForm() {
               }))
             }
             placeholder="Enter Solana address"
+            aria-invalid={!!errors.recipient}
+            aria-describedby={errors.recipient ? "recipient-error" : undefined}
             className={`mt-1 block w-full rounded-lg border px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
               errors.recipient
                 ? "border-red-500 focus:ring-red-500"
@@ -164,7 +166,7 @@ export function TransferForm() {
             disabled={result.status === "loading"}
           />
           {errors.recipient && (
-            <p className="mt-1 text-sm text-red-500">{errors.recipient}</p>
+            <p id="recipient-error" className="mt-1 text-sm text-red-500" role="alert">{errors.recipient}</p>
           )}
         </div>
 
@@ -190,6 +192,8 @@ export function TransferForm() {
             placeholder="0.00"
             step="0.001"
             min="0"
+            aria-invalid={!!errors.amount}
+            aria-describedby={errors.amount ? "amount-error" : undefined}
             className={`mt-1 block w-full rounded-lg border px-4 py-2 text-sm focus:outline-none focus:ring-2 ${
               errors.amount
                 ? "border-red-500 focus:ring-red-500"
@@ -198,19 +202,21 @@ export function TransferForm() {
             disabled={result.status === "loading"}
           />
           {errors.amount && (
-            <p className="mt-1 text-sm text-red-500">{errors.amount}</p>
+            <p id="amount-error" className="mt-1 text-sm text-red-500" role="alert">{errors.amount}</p>
           )}
         </div>
 
         {/* Fee Token Selector */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
+        <fieldset>
+          <legend className="block text-sm font-medium text-gray-700">
             Pay Fees With
-          </label>
-          <div className="mt-2 flex gap-2">
+          </legend>
+          <div className="mt-2 flex gap-2" role="group" aria-label="Fee payment method">
             <button
               type="button"
               onClick={() => setFeeToken("USDC")}
+              aria-pressed={feeToken === "USDC"}
+              aria-label="Pay fees with USDC (Gasless option)"
               className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
                 feeToken === "USDC"
                   ? "border-green-500 bg-green-50 text-green-700"
@@ -223,6 +229,8 @@ export function TransferForm() {
             <button
               type="button"
               onClick={() => setFeeToken("SOL")}
+              aria-pressed={feeToken === "SOL"}
+              aria-label="Pay fees with SOL"
               className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
                 feeToken === "SOL"
                   ? "border-purple-500 bg-purple-50 text-purple-700"
@@ -238,7 +246,7 @@ export function TransferForm() {
               ? "Transaction fees paid by Paymaster - no SOL needed!"
               : "Standard transaction with SOL for gas fees"}
           </p>
-        </div>
+        </fieldset>
 
         {/* Submit Button */}
         <button
@@ -278,7 +286,7 @@ export function TransferForm() {
 
       {/* Result Display */}
       {result.status === "success" && result.signature && (
-        <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+        <div className="rounded-lg border border-green-200 bg-green-50 p-4" role="status" aria-live="polite">
           <div className="flex items-center gap-2 text-green-700">
             <svg
               className="h-5 w-5"
@@ -326,7 +334,7 @@ export function TransferForm() {
       )}
 
       {result.status === "error" && result.error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4" role="alert" aria-live="assertive">
           <div className="flex items-center gap-2 text-red-700">
             <svg
               className="h-5 w-5"

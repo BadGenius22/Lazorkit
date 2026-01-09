@@ -20,27 +20,26 @@ export default function PaymentWidgetPage() {
 
   const handleSuccess = (result: PaymentResult) => {
     setLastPayment(result);
-    console.log("Payment successful:", result);
   };
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
           Tutorial 3: Payment Widget
         </h1>
-        <p className="mt-2 text-lg text-gray-600">
+        <p className="mt-2 text-base text-gray-600 sm:text-lg">
           A drop-in payment component for merchants to accept SOL payments with
           passkey authentication.
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
         {/* Left Column - Live Demo */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Demo Widget */}
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 sm:p-6">
             <h2 className="mb-4 text-lg font-semibold text-gray-900">
               Live Demo
             </h2>
@@ -56,8 +55,8 @@ export default function PaymentWidgetPage() {
           </div>
 
           {/* Configuration Panel */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+            <h2 className="mb-4 text-base font-semibold text-gray-900 sm:text-lg">
               Try Different Configurations
             </h2>
             <div className="space-y-4">
@@ -135,25 +134,27 @@ export default function PaymentWidgetPage() {
         </div>
 
         {/* Right Column - Instructions */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* How to Integrate */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-4 text-xl font-semibold text-gray-900">
               How to Integrate
             </h2>
             <div className="space-y-4">
-              <div className="rounded-lg bg-gray-900 p-4">
-                <pre className="overflow-x-auto text-sm text-gray-100">
-                  <code>{`import { PaymentWidget } from "@/components/payment";
+              <div className="-mx-4 rounded-lg bg-gray-900 p-3 sm:mx-0 sm:p-4">
+                <pre className="overflow-x-auto text-xs text-gray-100 sm:text-sm">
+                  <code>{`import { PaymentWidget }
+  from "@/components/payment";
 
 <PaymentWidget
-  merchantAddress="YOUR_WALLET_ADDRESS"
+  merchantAddress="YOUR_WALLET"
   merchantName="Your Store"
   description="Product description"
   amount={0.05}
   enableGasless
   onPaymentSuccess={(result) => {
-    console.log("Paid!", result.signature);
+    console.log("Paid!",
+      result.signature);
   }}
 />`}</code>
                 </pre>
@@ -162,36 +163,36 @@ export default function PaymentWidgetPage() {
           </div>
 
           {/* Props Reference */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Widget Props
             </h2>
             <div className="space-y-3 text-sm">
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">merchantAddress</code>
                 <span className="text-gray-500">string (required)</span>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">amount</code>
                 <span className="text-gray-500">number</span>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">merchantName</code>
                 <span className="text-gray-500">string</span>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">description</code>
                 <span className="text-gray-500">string</span>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">enableGasless</code>
                 <span className="text-gray-500">boolean</span>
               </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
+              <div className="flex flex-col gap-1 border-b border-gray-100 pb-2 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">allowCustomAmount</code>
                 <span className="text-gray-500">boolean</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-0">
                 <code className="text-purple-600">onPaymentSuccess</code>
                 <span className="text-gray-500">function</span>
               </div>
@@ -199,33 +200,33 @@ export default function PaymentWidgetPage() {
           </div>
 
           {/* Use Cases */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+          <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="mb-4 text-xl font-semibold text-gray-900">
               Use Cases
             </h2>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-lg bg-purple-50 p-3 text-center">
-                <span className="text-2xl">🛒</span>
-                <p className="mt-1 text-sm font-medium text-purple-800">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
+              <div className="rounded-lg bg-purple-50 p-2 text-center sm:p-3">
+                <span className="text-xl sm:text-2xl">🛒</span>
+                <p className="mt-1 text-xs font-medium text-purple-800 sm:text-sm">
                   E-commerce
                 </p>
-                <p className="text-xs text-purple-600">Checkout pages</p>
+                <p className="text-xs text-purple-600">Checkout</p>
               </div>
-              <div className="rounded-lg bg-green-50 p-3 text-center">
-                <span className="text-2xl">💰</span>
-                <p className="mt-1 text-sm font-medium text-green-800">
+              <div className="rounded-lg bg-green-50 p-2 text-center sm:p-3">
+                <span className="text-xl sm:text-2xl">💰</span>
+                <p className="mt-1 text-xs font-medium text-green-800 sm:text-sm">
                   Donations
                 </p>
                 <p className="text-xs text-green-600">Tip jars</p>
               </div>
-              <div className="rounded-lg bg-blue-50 p-3 text-center">
-                <span className="text-2xl">🎮</span>
-                <p className="mt-1 text-sm font-medium text-blue-800">Gaming</p>
-                <p className="text-xs text-blue-600">In-app purchases</p>
+              <div className="rounded-lg bg-blue-50 p-2 text-center sm:p-3">
+                <span className="text-xl sm:text-2xl">🎮</span>
+                <p className="mt-1 text-xs font-medium text-blue-800 sm:text-sm">Gaming</p>
+                <p className="text-xs text-blue-600">In-app</p>
               </div>
-              <div className="rounded-lg bg-amber-50 p-3 text-center">
-                <span className="text-2xl">📱</span>
-                <p className="mt-1 text-sm font-medium text-amber-800">
+              <div className="rounded-lg bg-amber-50 p-2 text-center sm:p-3">
+                <span className="text-xl sm:text-2xl">📱</span>
+                <p className="mt-1 text-xs font-medium text-amber-800 sm:text-sm">
                   Mobile
                 </p>
                 <p className="text-xs text-amber-600">Quick pay</p>
@@ -234,44 +235,40 @@ export default function PaymentWidgetPage() {
           </div>
 
           {/* Features */}
-          <div className="rounded-lg border border-purple-200 bg-purple-50 p-6">
-            <h2 className="mb-4 text-xl font-semibold text-purple-800">
+          <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 sm:p-6">
+            <h2 className="mb-4 text-lg font-semibold text-purple-800 sm:text-xl">
               Widget Features
             </h2>
-            <ul className="space-y-2 text-sm text-purple-700">
+            <ul className="space-y-2 text-xs text-purple-700 sm:text-sm">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-purple-500">✓</span>
                 <span>
-                  <strong>Gasless Payments</strong> - Paymaster sponsors
-                  transaction fees
+                  <strong>Gasless Payments</strong> - Paymaster sponsors fees
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-purple-500">✓</span>
                 <span>
-                  <strong>Passkey Authentication</strong> - Biometric signing,
-                  no seed phrases
+                  <strong>Passkey Auth</strong> - Biometric signing, no seed phrases
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-purple-500">✓</span>
                 <span>
-                  <strong>Customizable</strong> - Merchant branding, amounts,
-                  callbacks
+                  <strong>Customizable</strong> - Branding, amounts, callbacks
                 </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-purple-500">✓</span>
                 <span>
-                  <strong>Real-time Status</strong> - Processing, success, and
-                  error states
+                  <strong>Real-time Status</strong> - Processing, success, error
                 </span>
               </li>
             </ul>
           </div>
 
           {/* Get Test SOL */}
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 sm:p-6">
             <h2 className="mb-2 text-lg font-semibold text-amber-800">
               Need Test SOL?
             </h2>

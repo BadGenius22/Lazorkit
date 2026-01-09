@@ -18,7 +18,7 @@ export function PaymentStatus({ status, result, error, onRetry, onReset }: Payme
   // Processing state
   if (status === "connecting" || status === "processing") {
     return (
-      <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+      <div className="rounded-lg border border-purple-200 bg-purple-50 p-4" role="status" aria-live="polite">
         <div className="flex items-center gap-3">
           <svg
             className="h-5 w-5 animate-spin text-purple-600"
@@ -57,7 +57,7 @@ export function PaymentStatus({ status, result, error, onRetry, onReset }: Payme
   // Success state
   if (status === "success" && result) {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-4">
+      <div className="rounded-lg border border-green-200 bg-green-50 p-4" role="status" aria-live="polite">
         <div className="flex items-start gap-3">
           <svg
             className="h-6 w-6 shrink-0 text-green-500"
@@ -120,7 +120,7 @@ export function PaymentStatus({ status, result, error, onRetry, onReset }: Payme
   // Error state
   if (status === "error" && error) {
     return (
-      <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4" role="alert" aria-live="assertive">
         <div className="flex items-start gap-3">
           <svg
             className="h-6 w-6 shrink-0 text-red-500"
