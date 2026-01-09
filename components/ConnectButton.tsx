@@ -3,6 +3,35 @@
 import { useWallet } from "@lazorkit/wallet";
 import { truncateAddress } from "@/lib/constants";
 
+/**
+ * Wallet connection button with passkey authentication
+ *
+ * @description
+ * A smart button that adapts to the current wallet connection state:
+ * - **Disconnected**: Shows "Connect Wallet" - triggers passkey/biometric prompt
+ * - **Connecting**: Shows spinner with "Connecting..." - disabled during auth
+ * - **Connected**: Shows truncated address with green indicator - click to disconnect
+ *
+ * Uses LazorKit's passkey-based authentication (WebAuthn) for secure,
+ * seedless wallet access.
+ *
+ * @example
+ * ```tsx
+ * // Basic usage in navbar
+ * <nav>
+ *   <Logo />
+ *   <ConnectButton />
+ * </nav>
+ *
+ * // The button handles all states automatically
+ * // No props needed - uses LazorkitProvider context
+ * ```
+ *
+ * @returns Rendered button element with appropriate state
+ *
+ * @requires Must be wrapped in LazorkitProvider
+ * @see {@link https://docs.lazorkit.com} for passkey documentation
+ */
 export function ConnectButton() {
   const { connect, disconnect, isConnected, isConnecting, smartWalletPubkey } =
     useWallet();

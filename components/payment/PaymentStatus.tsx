@@ -2,14 +2,52 @@
 
 import { PaymentStatus as Status, PaymentResult, PaymentError } from "@/hooks/usePayment";
 
+/**
+ * Props for PaymentStatus component
+ * @description Configuration for payment status display
+ */
 interface PaymentStatusProps {
+  /** Current payment flow status */
   status: Status;
+  /** Payment result if successful */
   result: PaymentResult | null;
+  /** Error details if failed */
   error: PaymentError | null;
+  /** Callback for retry button (shown for recoverable errors) */
   onRetry?: () => void;
+  /** Callback to reset and start new payment */
   onReset?: () => void;
 }
 
+/**
+ * Payment status display component
+ *
+ * @description
+ * Displays the current state of a payment transaction:
+ * - **Idle**: Returns null (nothing displayed)
+ * - **Connecting/Processing**: Purple spinner with status message
+ * - **Success**: Green card with signature and Explorer link
+ * - **Error**: Red card with message and retry/cancel options
+ *
+ * Uses ARIA live regions for screen reader announcements.
+ *
+ * @example
+ * ```tsx
+ * <PaymentStatus
+ *   status={status}
+ *   result={result}
+ *   error={error}
+ *   onRetry={() => pay(amount, currency)}
+ *   onReset={() => reset()}
+ * />
+ * ```
+ *
+ * @param props - Status display configuration
+ * @returns Status card component or null when idle
+ *
+ * @see {@link PaymentResult} for success data structure
+ * @see {@link PaymentError} for error data structure
+ */
 export function PaymentStatus({ status, result, error, onRetry, onReset }: PaymentStatusProps) {
   if (status === "idle") {
     return null;

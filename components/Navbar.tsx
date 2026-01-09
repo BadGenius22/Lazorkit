@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ConnectButton } from "./ConnectButton";
 
+/** Navigation links configuration */
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/passkey-login", label: "Passkey Login" },
@@ -11,6 +12,28 @@ const navLinks = [
   { href: "/payment-widget", label: "Payment Widget" },
 ];
 
+/**
+ * Application navigation bar
+ *
+ * @description
+ * Responsive navigation component with:
+ * - **Logo**: Links to homepage with brand styling
+ * - **Nav Links**: Tutorial page links with active state highlighting
+ * - **Connect Button**: Wallet connection integrated on the right
+ *
+ * Desktop shows full horizontal nav, mobile shows stacked layout.
+ *
+ * @example
+ * ```tsx
+ * // Used in app/layout.tsx
+ * <body>
+ *   <Navbar />
+ *   <main>{children}</main>
+ * </body>
+ * ```
+ *
+ * @returns Navigation bar component
+ */
 export function Navbar() {
   const pathname = usePathname();
 

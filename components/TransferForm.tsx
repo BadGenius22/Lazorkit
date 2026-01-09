@@ -5,14 +5,46 @@ import { useWallet } from "@lazorkit/wallet";
 import { SystemProgram, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getExplorerUrl } from "@/lib/constants";
 
+/**
+ * Fee payment method for transactions
+ * - `SOL`: Standard transaction fees paid in SOL
+ * - `USDC`: Gasless transaction with fees sponsored by Paymaster
+ */
 type FeeToken = "SOL" | "USDC";
 
+/**
+ * Transaction state for tracking transfer progress
+ */
 interface TransactionResult {
+  /** Current status: idle (ready), loading (processing), success, or error */
   status: "idle" | "loading" | "success" | "error";
+  /** Transaction signature if successful (base58 encoded) */
   signature?: string;
+  /** Error message if failed */
   error?: string;
 }
 
+/**
+ * SOL Transfer Form Component
+ *
+ * @description
+ * A form component for sending SOL to any Solana address with optional
+ * gasless transactions via Paymaster. Includes:
+ * - Recipient address validation (valid Solana public key)
+ * - Amount validation (positive, max 1000 SOL safety limit)
+ * - Fee method toggle (SOL or USDC/gasless)
+ * - Transaction status display with Explorer link
+ * - Comprehensive error handling with user-friendly messages
+ *
+ * @example
+ * ```tsx
+ * // Used in the gasless transfer tutorial page
+ * <TransferForm />
+ * ```
+ *
+ * @requires Wallet must be connected via LazorkitProvider
+ * @see {@link https://docs.lazorkit.com} for SDK documentation
+ */
 export function TransferForm() {
   const { signAndSendTransaction, smartWalletPubkey } = useWallet();
 

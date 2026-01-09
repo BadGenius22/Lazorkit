@@ -5,6 +5,37 @@ import { useWallet } from "@lazorkit/wallet";
 import { truncateAddress, getAccountUrl } from "@/lib/constants";
 import { useBalance } from "@/hooks/useBalance";
 
+/**
+ * Wallet information display card
+ *
+ * @description
+ * Displays connected wallet details including:
+ * - **SOL Balance**: Auto-refreshes every 30 seconds with manual refresh option
+ * - **Wallet Address**: Full address with copy-to-clipboard and Solscan link
+ *
+ * Returns null when wallet is not connected, making it safe to render anywhere.
+ *
+ * @example
+ * ```tsx
+ * // Shows wallet info when connected, nothing when disconnected
+ * <WalletInfo />
+ *
+ * // Typical usage with connection check
+ * {isConnected ? (
+ *   <>
+ *     <WalletInfo />
+ *     <TransferForm />
+ *   </>
+ * ) : (
+ *   <p>Please connect your wallet</p>
+ * )}
+ * ```
+ *
+ * @returns Wallet info card component or null if not connected
+ *
+ * @requires Must be wrapped in LazorkitProvider
+ * @see {@link useBalance} for balance fetching logic
+ */
 export function WalletInfo() {
   const { smartWalletPubkey, isConnected } = useWallet();
   const [copied, setCopied] = useState(false);

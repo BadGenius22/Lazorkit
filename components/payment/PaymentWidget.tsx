@@ -7,34 +7,112 @@ import { usePayment, PaymentCurrency, PaymentResult, PaymentError } from "@/hook
 import { formatPaymentAmount } from "@/lib/solana-pay";
 import { PaymentStatus } from "./PaymentStatus";
 
+/**
+ * Props for the PaymentWidget component
+ * @description Configuration for the drop-in payment UI component
+ */
 export interface PaymentWidgetProps {
-  // Required
+  // ═══════════════════════════════════════════════════════════════════════════
+  // REQUIRED
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Solana wallet address to receive payments (base58 encoded) */
   merchantAddress: string;
 
-  // Amount configuration
+  // ═══════════════════════════════════════════════════════════════════════════
+  // AMOUNT CONFIGURATION
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Fixed payment amount in SOL. If omitted with allowCustomAmount=true, user enters amount */
   amount?: number;
+  /** Currency for fee payment (reserved for future multi-currency support) */
   currency?: PaymentCurrency;
+  /** Allow user to enter custom amount. If false, uses fixed `amount` prop */
   allowCustomAmount?: boolean;
 
-  // Merchant branding
+  // ═══════════════════════════════════════════════════════════════════════════
+  // MERCHANT BRANDING
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Business name displayed at top of widget */
   merchantName?: string;
+  /** URL to merchant logo image (displayed as 48x48 rounded) */
   merchantLogo?: string;
+  /** Payment description (e.g., "Coffee - Large") */
   description?: string;
+  /** Merchant reference ID for tracking/reconciliation */
   reference?: string;
 
-  // Feature toggles
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FEATURE TOGGLES
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Enable gasless payments via Paymaster (default: true) */
   enableGasless?: boolean;
 
-  // Callbacks
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CALLBACKS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Called when payment processing begins */
   onPaymentStart?: () => void;
+  /** Called when payment completes successfully with transaction details */
   onPaymentSuccess?: (result: PaymentResult) => void;
+  /** Called when payment fails with error information */
   onPaymentError?: (error: PaymentError) => void;
+  /** Called when user cancels the passkey/biometric prompt */
   onPaymentCancel?: () => void;
 
-  // Styling
+  // ═══════════════════════════════════════════════════════════════════════════
+  // STYLING
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  /** Additional CSS classes to apply to the widget container */
   className?: string;
 }
 
+/**
+ * Drop-in payment widget for accepting SOL payments
+ *
+ * @description
+ * A self-contained payment component that handles the complete payment flow:
+ * - Passkey/biometric wallet connection
+ * - Amount entry (fixed or custom)
+ * - Fee method selection (SOL or USDC/gasless)
+ * - Transaction signing and submission
+ * - Success/error state display
+ *
+ * @example
+ * ```tsx
+ * // Fixed amount checkout
+ * <PaymentWidget
+ *   merchantAddress="YOUR_WALLET_ADDRESS"
+ *   merchantName="Coffee Shop"
+ *   description="Latte (Large)"
+ *   amount={0.05}
+ *   enableGasless
+ *   onPaymentSuccess={(result) => {
+ *     console.log("Payment received!", result.signature);
+ *     // Redirect to success page or update order status
+ *   }}
+ * />
+ *
+ * // Donation/tip jar (custom amount)
+ * <PaymentWidget
+ *   merchantAddress="YOUR_WALLET_ADDRESS"
+ *   merchantName="Creator Fund"
+ *   description="Support my work"
+ *   allowCustomAmount
+ *   enableGasless
+ * />
+ * ```
+ *
+ * @param props - Widget configuration
+ * @returns Rendered payment widget component
+ *
+ * @see {@link PaymentWidgetProps} for all configuration options
+ * @see {@link PaymentResult} for success callback data structure
+ */
 export function PaymentWidget({
   merchantAddress,
   amount: initialAmount,
