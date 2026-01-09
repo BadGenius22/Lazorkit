@@ -1,6 +1,8 @@
 "use client";
 
 import { Buffer } from "buffer";
+import { LazorkitProvider } from "@lazorkit/wallet";
+import { RPC_URL, PORTAL_URL, PAYMASTER_URL } from "@/lib/constants";
 
 // Initialize Buffer polyfill for browser environment
 // Required by @solana/web3.js
@@ -13,5 +15,13 @@ interface ProvidersProps {
 }
 
 export function Providers({ children }: ProvidersProps) {
-  return <>{children}</>;
+  return (
+    <LazorkitProvider
+      rpcUrl={RPC_URL}
+      portalUrl={PORTAL_URL}
+      paymasterConfig={{ paymasterUrl: PAYMASTER_URL }}
+    >
+      {children}
+    </LazorkitProvider>
+  );
 }

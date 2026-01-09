@@ -28,14 +28,14 @@
 
 ### Project At a Glance
 
-| Attribute                | Value                                                                |
-| ------------------------ | -------------------------------------------------------------------- |
-| **Project Name**         | LazorKit SDK Integration Example                                     |
-| **Objective**            | Practical code example showing LazorKit SDK integration for devs     |
-| **Primary Deliverables** | Working code example + clear documentation + live demo               |
-| **Focus**                | Help other developers get started fast                               |
-| **Contest Deadline**     | January 15, 2026                                                     |
-| **Target Outcome**       | Top 5 placement ($75 - $700 USDC)                                    |
+| Attribute                | Value                                                            |
+| ------------------------ | ---------------------------------------------------------------- |
+| **Project Name**         | LazorKit SDK Integration Example                                 |
+| **Objective**            | Practical code example showing LazorKit SDK integration for devs |
+| **Primary Deliverables** | Working code example + clear documentation + live demo           |
+| **Focus**                | Help other developers get started fast                           |
+| **Contest Deadline**     | January 15, 2026                                                 |
+| **Target Outcome**       | Top 5 placement ($75 - $700 USDC)                                |
 
 ### Value Proposition
 
@@ -510,12 +510,12 @@ If running out of time, prioritize in this order:
 
 ### Rollback Procedures
 
-| Scenario             | Immediate Action               | Recovery Steps                |
-| -------------------- | ------------------------------ | ----------------------------- |
-| Vercel deploy breaks | Revert to last deployment      | Debug locally, redeploy       |
+| Scenario             | Immediate Action                    | Recovery Steps                 |
+| -------------------- | ----------------------------------- | ------------------------------ |
+| Vercel deploy breaks | Revert to last deployment           | Debug locally, redeploy        |
 | pnpm install breaks  | Delete node_modules, pnpm-lock.yaml | `pnpm install`, check versions |
-| Git corruption       | Clone fresh from remote        | Check for uncommitted work    |
-| SDK crash            | Check LazorKit status          | Pin working version           |
+| Git corruption       | Clone fresh from remote             | Check for uncommitted work     |
+| SDK crash            | Check LazorKit status               | Pin working version            |
 
 ---
 
@@ -607,36 +607,36 @@ If running out of time, prioritize in this order:
 
 ### Role Definitions
 
-| Role | Description |
-|------|-------------|
-| **R** - Responsible | Does the work to complete the task |
+| Role                | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| **R** - Responsible | Does the work to complete the task                |
 | **A** - Accountable | Ultimately answerable for completion (1 per task) |
-| **C** - Consulted | Provides input before/during work |
-| **I** - Informed | Kept updated on progress |
+| **C** - Consulted   | Provides input before/during work                 |
+| **I** - Informed    | Kept updated on progress                          |
 
 ### Task Assignments (Solo Developer Context)
 
 For a solo bounty submission, adapt RACI as a personal checklist:
 
-| Task | Developer | LazorKit (External) | Contest (Superteam) |
-|------|-----------|---------------------|---------------------|
-| **Project Setup** | R/A | I | I |
-| **SDK Integration** | R/A | C (docs/support) | I |
-| **Passkey Implementation** | R/A | C (SDK behavior) | I |
-| **Gasless Transfer** | R/A | C (paymaster) | I |
-| **Documentation** | R/A | I | A (judges) |
-| **Deployment** | R/A | I | I |
-| **Content Creation** | R/A | I | A (judges) |
-| **Final Submission** | R/A | I | A (evaluates) |
+| Task                       | Developer | LazorKit (External) | Contest (Superteam) |
+| -------------------------- | --------- | ------------------- | ------------------- |
+| **Project Setup**          | R/A       | I                   | I                   |
+| **SDK Integration**        | R/A       | C (docs/support)    | I                   |
+| **Passkey Implementation** | R/A       | C (SDK behavior)    | I                   |
+| **Gasless Transfer**       | R/A       | C (paymaster)       | I                   |
+| **Documentation**          | R/A       | I                   | A (judges)          |
+| **Deployment**             | R/A       | I                   | I                   |
+| **Content Creation**       | R/A       | I                   | A (judges)          |
+| **Final Submission**       | R/A       | I                   | A (evaluates)       |
 
 ### External Dependencies
 
-| Dependency | Owner | Contact Method | SLA |
-|------------|-------|----------------|-----|
-| LazorKit SDK | LazorKit Team | GitHub Issues, Discord | Best effort |
-| Solana Devnet | Solana Foundation | Status page | 99.9% |
-| Vercel Hosting | Vercel | Support ticket | 99.99% |
-| Contest Rules | Superteam | Discord, Earn page | N/A |
+| Dependency     | Owner             | Contact Method         | SLA         |
+| -------------- | ----------------- | ---------------------- | ----------- |
+| LazorKit SDK   | LazorKit Team     | GitHub Issues, Discord | Best effort |
+| Solana Devnet  | Solana Foundation | Status page            | 99.9%       |
+| Vercel Hosting | Vercel            | Support ticket         | 99.99%      |
+| Contest Rules  | Superteam         | Discord, Earn page     | N/A         |
 
 ---
 
@@ -644,12 +644,12 @@ For a solo bounty submission, adapt RACI as a personal checklist:
 
 ### Progress Reporting
 
-| Checkpoint | When | What to Report | To Whom |
-|------------|------|----------------|---------|
-| **Daily** | End of day | Tasks completed, blockers | Self (journal) |
-| **Phase Complete** | Per gate | Gate checklist status | Self + commit |
-| **Blocked** | Immediately | Issue + attempted solutions | LazorKit Discord |
-| **Pre-Submission** | 24h before | Final review, all requirements | Self |
+| Checkpoint         | When        | What to Report                 | To Whom          |
+| ------------------ | ----------- | ------------------------------ | ---------------- |
+| **Daily**          | End of day  | Tasks completed, blockers      | Self (journal)   |
+| **Phase Complete** | Per gate    | Gate checklist status          | Self + commit    |
+| **Blocked**        | Immediately | Issue + attempted solutions    | LazorKit Discord |
+| **Pre-Submission** | 24h before  | Final review, all requirements | Self             |
 
 ### Issue Escalation Path
 
@@ -698,6 +698,7 @@ Maintain a decision log for significant choices:
 ## Decision Log
 
 ### YYYY-MM-DD: [Decision Title]
+
 - **Context:** What situation required a decision
 - **Options Considered:** A, B, C
 - **Decision:** Chose B
@@ -741,12 +742,12 @@ Maintain a decision log for significant choices:
 
 ### Version Control Strategy
 
-| Branch | Purpose | Merge Strategy |
-|--------|---------|----------------|
-| `main` | Production-ready code | Protected, requires passing build |
-| `dev` | Active development | Working commits |
-| `feature/*` | New features | PR to dev |
-| `fix/*` | Bug fixes | PR to dev |
+| Branch      | Purpose               | Merge Strategy                    |
+| ----------- | --------------------- | --------------------------------- |
+| `main`      | Production-ready code | Protected, requires passing build |
+| `dev`       | Active development    | Working commits                   |
+| `feature/*` | New features          | PR to dev                         |
+| `fix/*`     | Bug fixes             | PR to dev                         |
 
 ### Commit Message Convention
 
@@ -899,9 +900,9 @@ try {
 
 ## Revision History
 
-| Version | Date     | Changes                                                              |
-| ------- | -------- | -------------------------------------------------------------------- |
-| 1.0     | Initial  | Base plan                                                            |
-| 2.0     | Enhanced | Added risk matrix, contingency plans, success metrics, quality gates |
+| Version | Date     | Changes                                                                      |
+| ------- | -------- | ---------------------------------------------------------------------------- |
+| 1.0     | Initial  | Base plan                                                                    |
+| 2.0     | Enhanced | Added risk matrix, contingency plans, success metrics, quality gates         |
 | 2.1     | Industry | Added RACI matrix, communication plan, change management, commit conventions |
-| 2.2     | Refocus  | Updated to pnpm, Node 20+, refocused on practical code example for devs |
+| 2.2     | Refocus  | Updated to pnpm, Node 20+, refocused on practical code example for devs      |
