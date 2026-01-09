@@ -1,6 +1,6 @@
-# 🔐 LazorKit SDK Integration Example
-
 <div align="center">
+
+# 🔐 LazorKit SDK Integration Example
 
 ![Solana](https://img.shields.io/badge/Solana-Devnet-9945FF?style=for-the-badge&logo=solana&logoColor=white)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js&logoColor=white)
