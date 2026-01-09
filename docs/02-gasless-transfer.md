@@ -1,65 +1,139 @@
 # Tutorial 2: Gasless Transfer
 
-Send SOL without paying gas fees - Paymaster covers transaction costs with USDC.
+<div align="center">
+
+![Difficulty](https://img.shields.io/badge/Difficulty-Intermediate-yellow?style=flat-square)
+![Time](https://img.shields.io/badge/Time-20%20min-blue?style=flat-square)
+![Prerequisites](https://img.shields.io/badge/Prerequisites-Tutorial%201-orange?style=flat-square)
+
+**Send SOL without paying gas fees - Paymaster covers transaction costs.**
+
+[Live Demo](https://lazorkit-lovat.vercel.app/gasless-transfer) | [Source Code](../app/gasless-transfer)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [How Gasless Works](#how-gasless-works)
+- [Implementation](#implementation)
+  - [Step 1: Create Transfer Form](#step-1-create-the-transfer-form-component)
+  - [Step 2: Add Validation](#step-2-add-input-validation)
+  - [Step 3: Build Instruction](#step-3-build-the-transfer-instruction)
+  - [Step 4: Submit Transaction](#step-4-submit-with-gasless-option)
+  - [Step 5: Handle Errors](#step-5-handle-errors-gracefully)
+  - [Step 6: Build UI](#step-6-build-the-form-ui)
+  - [Step 7: Create Page](#step-7-create-the-gasless-transfer-page)
+- [Testing](#testing-the-flow)
+- [Common Issues](#common-issues)
+- [Next Steps](#next-steps)
+
+---
 
 ## Introduction
 
 One of the biggest friction points in crypto is gas fees. Users need to:
-1. Acquire the native token (SOL) first
-2. Keep enough balance for fees
-3. Understand gas pricing
+
+| Pain Point | Description |
+|------------|-------------|
+| 1. Acquire SOL first | Can't do anything without native token |
+| 2. Keep balance for fees | Must always maintain SOL reserve |
+| 3. Understand gas pricing | Confusing for new users |
 
 LazorKit's **Paymaster service** eliminates this friction by paying gas fees on behalf of users. The cost is settled in USDC, enabling truly gasless onboarding.
 
 ### What You'll Learn
 
-- How Paymaster-sponsored transactions work
-- Building transfer instructions with `@solana/web3.js`
-- Using `signAndSendTransaction` with fee options
-- Validating user inputs
-- Handling transaction results and errors
+| Topic | Description |
+|-------|-------------|
+| 🔄 Paymaster | How sponsored transactions work |
+| 🏗️ Instructions | Building transfer instructions with `@solana/web3.js` |
+| 📤 Transactions | Using `signAndSendTransaction` with fee options |
+| ✅ Validation | Validating user inputs |
+| ⚠️ Error Handling | Handling transaction results and errors |
 
 ### Prerequisites
 
-- Completed [Tutorial 1: Passkey Login](./01-passkey-login.md)
-- Connected wallet with test SOL (get from [Solana Faucet](https://faucet.solana.com))
+| Requirement | Notes |
+|-------------|-------|
+| [Tutorial 1: Passkey Login](./01-passkey-login.md) | Must be completed first |
+| Test SOL | Get from [Solana Faucet](https://faucet.solana.com) |
+
+---
 
 ## How Gasless Works
 
-### Traditional Transaction Flow
+### Traditional vs Gasless
+
+<table>
+<tr>
+<td width="50%">
+
+#### Traditional Flow
 
 ```
-User creates transaction
-    ↓
-User pays SOL for gas
-    ↓
-Transaction submitted to network
-    ↓
-SOL deducted from user balance
+┌─────────────────────┐
+│  User creates tx    │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  User pays SOL      │
+│  for gas fees       │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  Transaction sent   │
+│  to network         │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  SOL deducted from  │
+│  user balance       │
+└─────────────────────┘
 ```
 
-### Gasless Transaction Flow
+</td>
+<td width="50%">
+
+#### Gasless Flow
 
 ```
-User creates transaction
-    ↓
-Transaction sent to Paymaster
-    ↓
-Paymaster sponsors gas (pays SOL)
-    ↓
-Transaction submitted to network
-    ↓
-USDC fee settled (or free on devnet)
+┌─────────────────────┐
+│  User creates tx    │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  Transaction sent   │
+│  to Paymaster  ⛽   │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  Paymaster sponsors │
+│  gas (pays SOL)     │
+└─────────┬───────────┘
+          ▼
+┌─────────────────────┐
+│  ✅ No SOL needed!  │
+│  Free on devnet     │
+└─────────────────────┘
 ```
 
-### Benefits
+</td>
+</tr>
+</table>
+
+### Benefits Comparison
 
 | Aspect | Traditional | Gasless |
-|--------|-------------|---------|
-| Onboarding | Need SOL first | Start immediately |
-| UX | Multiple tokens | Single token experience |
-| Fees | Variable SOL | Fixed USDC (or free) |
-| Complexity | Manage gas | Abstracted away |
+|--------|:-----------:|:-------:|
+| **Onboarding** | ❌ Need SOL first | ✅ Start immediately |
+| **UX** | ❌ Multiple tokens | ✅ Single token experience |
+| **Fees** | ❌ Variable SOL | ✅ Fixed USDC (or free) |
+| **Complexity** | ❌ Manage gas | ✅ Abstracted away |
+
+---
 
 ## Implementation
 
@@ -88,6 +162,19 @@ export function TransferForm() {
   // ... validation and submit logic below
 }
 ```
+
+#### Component State Overview
+
+| State | Type | Purpose |
+|-------|------|---------|
+| `recipient` | `string` | Destination wallet address |
+| `amount` | `string` | SOL amount to send |
+| `feeToken` | `"SOL" \| "USDC"` | Fee payment method |
+| `status` | `enum` | Transaction state |
+| `signature` | `string \| null` | Transaction signature |
+| `error` | `string \| null` | Error message |
+
+---
 
 ### Step 2: Add Input Validation
 
@@ -123,10 +210,12 @@ const validateAmount = (value: string): string | undefined => {
 };
 ```
 
-**Why validate?**
-- `PublicKey` constructor throws if invalid address format
-- Prevents submitting transactions that will fail
-- Better error messages for users
+> **📝 Why validate?**
+> - `PublicKey` constructor throws if invalid address format
+> - Prevents submitting transactions that will fail
+> - Better error messages for users
+
+---
 
 ### Step 3: Build the Transfer Instruction
 
@@ -147,10 +236,15 @@ const buildTransferInstruction = () => {
 };
 ```
 
-**Key concepts:**
-- `LAMPORTS_PER_SOL` = 1,000,000,000 (1 billion)
-- `SystemProgram.transfer` creates a native SOL transfer instruction
-- `smartWalletPubkey` is your passkey-derived wallet address
+#### Key Concepts
+
+| Concept | Value | Description |
+|---------|-------|-------------|
+| `LAMPORTS_PER_SOL` | 1,000,000,000 | 1 billion lamports = 1 SOL |
+| `SystemProgram.transfer` | - | Creates native SOL transfer instruction |
+| `smartWalletPubkey` | - | Your passkey-derived wallet address |
+
+---
 
 ### Step 4: Submit with Gasless Option
 
@@ -193,9 +287,23 @@ const handleSubmit = async (e: React.FormEvent) => {
 };
 ```
 
-**The magic happens in `transactionOptions`:**
-- `feeToken: "USDC"` → Paymaster sponsors gas, settled in USDC
-- `feeToken: undefined` → Standard transaction, user pays SOL gas
+#### The Magic: `transactionOptions`
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    FEE TOKEN OPTIONS                            │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   feeToken: "USDC"     →  Paymaster sponsors gas                │
+│                           Settled in USDC (free on devnet)      │
+│                                                                 │
+│   feeToken: undefined  →  Standard transaction                  │
+│                           User pays SOL for gas                 │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
 
 ### Step 5: Handle Errors Gracefully
 
@@ -221,10 +329,15 @@ const handleError = (err: Error) => {
 };
 ```
 
-**Common errors:**
-- `UserCancelled` - User dismissed biometric prompt (silent fail)
-- `insufficient` - Not enough SOL balance
-- `paymaster` - Paymaster service issue (rate limits, etc.)
+#### Error Types
+
+| Error | Severity | Handling |
+|-------|:--------:|----------|
+| `UserCancelled` | 🟡 | Silent - return to idle |
+| `insufficient` | 🔴 | Show balance error |
+| `paymaster` | 🟠 | Suggest SOL fees fallback |
+
+---
 
 ### Step 6: Build the Form UI
 
@@ -343,6 +456,8 @@ return (
 );
 ```
 
+---
+
 ### Step 7: Create the Gasless Transfer Page
 
 ```tsx
@@ -408,45 +523,77 @@ export default function GaslessTransferPage() {
 }
 ```
 
+---
+
 ## Testing the Flow
 
 ### Get Test SOL
 
-1. Visit [Solana Faucet](https://faucet.solana.com)
-2. Enter your smart wallet address
-3. Request devnet SOL
+| Step | Action |
+|:----:|--------|
+| 1 | Visit [Solana Faucet](https://faucet.solana.com) |
+| 2 | Enter your smart wallet address |
+| 3 | Request devnet SOL |
 
 ### Test Transfer
 
-1. Connect your wallet
-2. Enter any valid Solana address as recipient
-3. Enter a small amount (e.g., 0.01 SOL)
-4. Select "USDC (Gasless)"
-5. Click "Send SOL"
-6. Authenticate with biometrics
-7. Verify transaction on Solana Explorer
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      TEST TRANSFER FLOW                         │
+└─────────────────────────────────────────────────────────────────┘
+
+  1. Connect wallet    2. Enter details    3. Select USDC
+       │                     │                   │
+       ▼                     ▼                   ▼
+  ┌─────────┐          ┌─────────┐         ┌─────────┐
+  │   🔐    │    ───►  │  📝 To: │   ───►  │  ⛽     │
+  │ Wallet  │          │  0.01   │         │ Gasless │
+  │Connected│          │  SOL    │         │  Mode   │
+  └─────────┘          └─────────┘         └─────────┘
+                                                │
+       ┌────────────────────────────────────────┘
+       ▼
+  4. Click Send     5. Authenticate     6. Verify!
+       │                  │                  │
+       ▼                  ▼                  ▼
+  ┌─────────┐        ┌─────────┐       ┌─────────┐
+  │   📤    │  ───►  │   👆    │  ───► │   ✅    │
+  │  Send   │        │ Face ID │       │ Solana  │
+  │   SOL   │        │Touch ID │       │Explorer │
+  └─────────┘        └─────────┘       └─────────┘
+```
+
+---
 
 ## Expected Results
 
 After completing a successful transfer:
 
-1. **Success message** - Shows transaction signature
-2. **Explorer link** - Opens transaction on Solana Explorer
-3. **Balance update** - Source wallet balance decreases
-4. **Form reset** - Inputs cleared for next transfer
+| # | Result | Description |
+|---|--------|-------------|
+| 1 | ✅ Success message | Shows transaction signature |
+| 2 | ✅ Explorer link | Opens transaction on Solana Explorer |
+| 3 | ✅ Balance update | Source wallet balance decreases |
+| 4 | ✅ Form reset | Inputs cleared for next transfer |
+
+---
 
 ## Common Issues
 
-### "Insufficient balance"
+<details>
+<summary><b>🔴 "Insufficient balance"</b></summary>
 
 **Cause:** Not enough SOL to cover the transfer amount.
 
-**Solution:**
-- Get test SOL from the faucet
+**Solutions:**
+- Get test SOL from the [faucet](https://faucet.solana.com)
 - Reduce the transfer amount
 - Check wallet balance in WalletInfo component
 
-### Paymaster errors
+</details>
+
+<details>
+<summary><b>🟠 Paymaster errors</b></summary>
 
 **Causes:**
 - Rate limiting on devnet Paymaster
@@ -458,16 +605,22 @@ After completing a successful transfer:
 - Wait and retry later
 - Check that recipient address is valid
 
-### "Invalid Solana address"
+</details>
+
+<details>
+<summary><b>🔴 "Invalid Solana address"</b></summary>
 
 **Cause:** Recipient address is not valid base58 format.
 
-**Solution:**
+**Solutions:**
 - Verify the address is copied correctly
 - Ensure no extra spaces or characters
 - Use a known valid devnet address for testing
 
-### Transaction stuck in loading
+</details>
+
+<details>
+<summary><b>🟡 Transaction stuck in loading</b></summary>
 
 **Causes:**
 - Network congestion
@@ -478,6 +631,10 @@ After completing a successful transfer:
 - Wait for timeout (usually 30 seconds)
 - Check browser console for errors
 - Ensure biometric prompt was completed
+
+</details>
+
+---
 
 ## Technical Deep Dive
 
@@ -502,15 +659,29 @@ After completing a successful transfer:
 ### signAndSendTransaction Flow
 
 ```
-1. Build transaction with instructions
-2. Add recent blockhash
-3. If feeToken: "USDC":
-   a. Send to Paymaster service
-   b. Paymaster adds fee payer
-   c. Paymaster partially signs
-4. User signs with passkey (WebAuthn)
-5. Transaction sent to Solana network
-6. Return signature on confirmation
+┌─────────────────────────────────────────────────────────────────┐
+│                  TRANSACTION LIFECYCLE                          │
+└─────────────────────────────────────────────────────────────────┘
+
+  1. Build tx           2. Add blockhash      3. If gasless
+       │                      │                    │
+       ▼                      ▼                    ▼
+  ┌──────────┐          ┌──────────┐         ┌──────────┐
+  │   📝     │    ───►  │   #️⃣     │   ───►  │   ⛽     │
+  │  Build   │          │  Recent  │         │Paymaster │
+  │   Tx     │          │Blockhash │         │ Sponsor  │
+  └──────────┘          └──────────┘         └──────────┘
+                                                  │
+       ┌──────────────────────────────────────────┘
+       ▼
+  4. User signs         5. Send to network    6. Return sig
+       │                      │                    │
+       ▼                      ▼                    ▼
+  ┌──────────┐          ┌──────────┐         ┌──────────┐
+  │   🔐     │    ───►  │   🌐     │   ───►  │   ✅     │
+  │ WebAuthn │          │  Solana  │         │Signature │
+  │  Sign    │          │  Submit  │         │ Returned │
+  └──────────┘          └──────────┘         └──────────┘
 ```
 
 ### Error Codes Reference
@@ -523,24 +694,55 @@ After completing a successful transfer:
 | `PaymasterError` | Service issue | Try SOL fees |
 | `NetworkError` | RPC/connection issue | Retry later |
 
+---
+
 ## Next Steps
 
-Congratulations! You've learned how to:
+<table>
+<tr>
+<td width="70%">
+
+**Congratulations!** You've learned how to:
 - Build SOL transfer instructions
 - Use Paymaster for gasless transactions
 - Handle errors gracefully
 - Create a complete transfer form
 
+**Next:** Learn to integrate a payment widget for merchants.
+
+</td>
+<td width="30%" align="center">
+
+[**Tutorial 3: Payment Widget →**](./03-payment-widget.md)
+
+</td>
+</tr>
+</table>
+
 ### Ideas to Extend
 
-1. **Add token transfers** - Send SPL tokens, not just SOL
-2. **Batch transactions** - Multiple instructions in one tx
-3. **Transaction history** - Show past transfers
-4. **Address book** - Save frequent recipients
+| Feature | Description |
+|---------|-------------|
+| 🪙 Token transfers | Send SPL tokens, not just SOL |
+| 📦 Batch transactions | Multiple instructions in one tx |
+| 📜 Transaction history | Show past transfers |
+| 📒 Address book | Save frequent recipients |
+
+---
 
 ## Resources
 
-- [Solana Web3.js Documentation](https://solana-labs.github.io/solana-web3.js/)
-- [SystemProgram Reference](https://docs.solana.com/developing/runtime-facilities/programs#system-program)
-- [LazorKit Paymaster Docs](https://docs.lazorkit.com/)
-- [Solana Transaction Structure](https://docs.solana.com/developing/programming-model/transactions)
+| Resource | Link |
+|----------|------|
+| Solana Web3.js Docs | [solana-labs.github.io/solana-web3.js](https://solana-labs.github.io/solana-web3.js/) |
+| SystemProgram Reference | [docs.solana.com](https://docs.solana.com/developing/runtime-facilities/programs#system-program) |
+| LazorKit Paymaster Docs | [docs.lazorkit.com](https://docs.lazorkit.com/) |
+| Solana Transaction Structure | [docs.solana.com](https://docs.solana.com/developing/programming-model/transactions) |
+
+---
+
+<div align="center">
+
+**[← Tutorial 1: Passkey Login](./01-passkey-login.md)** | **[Tutorial 3: Payment Widget →](./03-payment-widget.md)**
+
+</div>

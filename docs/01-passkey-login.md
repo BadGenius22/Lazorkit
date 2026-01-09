@@ -1,6 +1,35 @@
 # Tutorial 1: Passkey Login
 
-Create a Solana wallet using your device's biometrics - no seed phrase required.
+<div align="center">
+
+![Difficulty](https://img.shields.io/badge/Difficulty-Beginner-green?style=flat-square)
+![Time](https://img.shields.io/badge/Time-15%20min-blue?style=flat-square)
+![Prerequisites](https://img.shields.io/badge/Prerequisites-None-gray?style=flat-square)
+
+**Create a Solana wallet using your device's biometrics - no seed phrase required.**
+
+[Live Demo](https://lazorkit-lovat.vercel.app/passkey-login) | [Source Code](../app/passkey-login)
+
+</div>
+
+---
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [How Passkeys Work](#how-passkeys-work)
+- [Implementation](#implementation)
+  - [Step 1: Set Up Provider](#step-1-set-up-the-provider)
+  - [Step 2: Wrap Your App](#step-2-wrap-your-app)
+  - [Step 3: Create ConnectButton](#step-3-create-the-connectbutton)
+  - [Step 4: Display Wallet Info](#step-4-display-wallet-information)
+  - [Step 5: Create the Page](#step-5-create-the-passkey-login-page)
+- [Understanding the Flow](#understanding-the-flow)
+- [Expected Results](#expected-results)
+- [Common Issues](#common-issues)
+- [Next Steps](#next-steps)
+
+---
 
 ## Introduction
 
@@ -10,36 +39,83 @@ LazorKit solves this with **passkey-based wallets**. Using the WebAuthn standard
 
 ### What You'll Learn
 
-- How passkeys work with blockchain wallets
-- Setting up the LazorkitProvider
-- Using the useWallet hook
-- Building a ConnectButton component
-- Displaying wallet information
+| Topic | Description |
+|-------|-------------|
+| 🔐 Passkeys | How passkeys work with blockchain wallets |
+| ⚙️ Provider Setup | Setting up the LazorkitProvider |
+| 🪝 useWallet Hook | Using the useWallet hook |
+| 🔘 ConnectButton | Building a ConnectButton component |
+| 📋 Wallet Info | Displaying wallet information |
 
 ### Prerequisites
 
-- Node.js 20+ and pnpm 8+
-- A WebAuthn-compatible browser (Chrome, Safari, Firefox, Edge)
-- A device with biometrics or a security key
+| Requirement | Version | Notes |
+|-------------|---------|-------|
+| Node.js | 20+ | [Download](https://nodejs.org/) |
+| pnpm | 8+ | `npm install -g pnpm` |
+| Browser | Chrome 108+, Safari 16+, Firefox 122+ | WebAuthn support required |
+| Device | Any | Must have biometrics or security key |
+
+---
 
 ## How Passkeys Work
 
 ### The WebAuthn Flow
 
-1. **User initiates connection** - Clicks "Connect Wallet"
-2. **Browser triggers passkey creation** - Native biometric prompt appears
-3. **Passkey stored in secure enclave** - Private key never leaves device
-4. **Public key sent to LazorKit** - Used to derive smart wallet address
-5. **Smart wallet created** - A Solana PDA derived from your passkey
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           PASSKEY CREATION FLOW                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+  ┌──────────┐      ┌──────────┐      ┌──────────┐      ┌──────────┐
+  │  1. User │      │2. Browser│      │3. Secure │      │4. LazorKit│
+  │  clicks  │ ───► │  shows   │ ───► │ Enclave  │ ───► │  Portal  │
+  │ "Connect"│      │ biometric│      │  stores  │      │ derives  │
+  │          │      │  prompt  │      │  passkey │      │  wallet  │
+  └──────────┘      └──────────┘      └──────────┘      └──────────┘
+                                            │                 │
+                                            │    Public Key   │
+                                            └────────────────►│
+                                                              ▼
+                                                    ┌──────────────┐
+                                                    │ Smart Wallet │
+                                                    │     PDA      │
+                                                    │  (Your new   │
+                                                    │   wallet!)   │
+                                                    └──────────────┘
+```
 
 ### Security Benefits
 
-| Feature | Seed Phrase | Passkey |
-|---------|-------------|---------|
-| Phishing resistant | No | Yes (bound to domain) |
-| Hardware backed | No | Yes (secure enclave) |
-| User friendly | No (24 words) | Yes (biometrics) |
-| Cross-device sync | Manual backup | Platform sync (iCloud, etc.) |
+<table>
+<tr>
+<th width="25%">Feature</th>
+<th width="37%">Seed Phrase</th>
+<th width="38%">Passkey</th>
+</tr>
+<tr>
+<td><b>Phishing resistant</b></td>
+<td>❌ No - can be typed anywhere</td>
+<td>✅ Yes - bound to domain</td>
+</tr>
+<tr>
+<td><b>Hardware backed</b></td>
+<td>❌ No - stored in software</td>
+<td>✅ Yes - secure enclave</td>
+</tr>
+<tr>
+<td><b>User friendly</b></td>
+<td>❌ No - 24 words to remember</td>
+<td>✅ Yes - just use biometrics</td>
+</tr>
+<tr>
+<td><b>Cross-device sync</b></td>
+<td>⚠️ Manual backup required</td>
+<td>✅ Auto-sync (iCloud, etc.)</td>
+</tr>
+</table>
+
+---
 
 ## Implementation
 
@@ -78,10 +154,12 @@ export function Providers({ children }: ProvidersProps) {
 }
 ```
 
-**Key points:**
-- `"use client"` is required because WebAuthn only works in the browser
-- Buffer polyfill is needed for `@solana/web3.js` compatibility
-- Provider must wrap your entire app in `layout.tsx`
+> **📝 Key Points:**
+> - `"use client"` is required because WebAuthn only works in the browser
+> - Buffer polyfill is needed for `@solana/web3.js` compatibility
+> - Provider must wrap your entire app in `layout.tsx`
+
+---
 
 ### Step 2: Wrap Your App
 
@@ -104,9 +182,11 @@ export default function RootLayout({
 }
 ```
 
+---
+
 ### Step 3: Create the ConnectButton
 
-The ConnectButton handles three states: disconnected, connecting, and connected.
+The ConnectButton handles three states: **disconnected**, **connecting**, and **connected**.
 
 ```tsx
 // components/ConnectButton.tsx
@@ -167,13 +247,15 @@ export function ConnectButton() {
 }
 ```
 
-**How it works:**
+#### Button States
 
-1. `connect()` triggers the WebAuthn passkey flow
-2. User authenticates with biometrics
-3. `isConnecting` becomes true during the process
-4. On success, `isConnected` is true and `smartWalletPubkey` is available
-5. Session persists in localStorage for auto-reconnect
+| State | Appearance | Action |
+|-------|------------|--------|
+| 🔴 Disconnected | Purple "Connect Wallet" | Triggers passkey flow |
+| 🟡 Connecting | Gray "Connecting..." (disabled) | Shows loading |
+| 🟢 Connected | Green with truncated address | Disconnects on click |
+
+---
 
 ### Step 4: Display Wallet Information
 
@@ -230,6 +312,8 @@ export function WalletInfo() {
 }
 ```
 
+---
+
 ### Step 5: Create the Passkey Login Page
 
 ```tsx
@@ -270,57 +354,87 @@ export default function PasskeyLoginPage() {
 }
 ```
 
+---
+
 ## Understanding the Flow
 
 ### First-Time User
 
 ```
-User clicks "Connect Wallet"
-    ↓
-Browser shows passkey creation prompt
-    ↓
-User authenticates (Face ID / Touch ID / PIN)
-    ↓
-Passkey created and stored in device secure enclave
-    ↓
-Public key sent to LazorKit Portal
-    ↓
-Smart wallet PDA derived from public key
-    ↓
-Session token stored in localStorage
-    ↓
-User connected with wallet address
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         FIRST-TIME USER FLOW                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+   User clicks              Browser shows           User authenticates
+  "Connect Wallet"    ───►  passkey prompt    ───►  (Face ID/Touch ID)
+        │                                                  │
+        │                                                  ▼
+        │                                          Passkey created
+        │                                          in secure enclave
+        │                                                  │
+        ▼                                                  ▼
+  ┌───────────┐                                    Public key sent
+  │  Session  │◄────────────────────────────────   to LazorKit Portal
+  │  stored   │                                           │
+  │   in      │                                           ▼
+  │ localStorage                                  Smart wallet PDA
+  └───────────┘                                   derived from key
+        │                                                  │
+        ▼                                                  ▼
+  ┌─────────────────────────────────────────────────────────────┐
+  │              ✅ USER CONNECTED WITH WALLET ADDRESS           │
+  └─────────────────────────────────────────────────────────────┘
 ```
 
 ### Returning User
 
 ```
-Page loads
-    ↓
-LazorkitProvider checks localStorage for session
-    ↓
-Session found → Auto-connect attempt
-    ↓
-Browser shows passkey login prompt
-    ↓
-User authenticates
-    ↓
-Session restored, wallet connected
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          RETURNING USER FLOW                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+      Page loads         Check localStorage        Session found?
+          │                     │                       │
+          ▼                     ▼                       ▼
+    ┌──────────┐         ┌──────────┐         ┌───────────────┐
+    │   App    │   ───►  │ Provider │   ───►  │  Yes → Auto   │
+    │  mounts  │         │  checks  │         │    connect    │
+    └──────────┘         └──────────┘         └───────────────┘
+                                                      │
+                                                      ▼
+                                              Browser shows
+                                              passkey prompt
+                                                      │
+                                                      ▼
+                                              User authenticates
+                                                      │
+                                                      ▼
+                                            ┌─────────────────┐
+                                            │    ✅ Session    │
+                                            │    restored     │
+                                            └─────────────────┘
 ```
+
+---
 
 ## Expected Results
 
 After completing this tutorial:
 
-1. **Connect button appears** - Shows "Connect Wallet" when disconnected
-2. **Biometric prompt** - Appears when clicking connect
-3. **Wallet address displayed** - Shows truncated address when connected
-4. **Session persistence** - Wallet stays connected after page refresh
-5. **Disconnect works** - Button changes to address, clicking disconnects
+| # | Result | Description |
+|---|--------|-------------|
+| 1 | ✅ Connect button appears | Shows "Connect Wallet" when disconnected |
+| 2 | ✅ Biometric prompt | Appears when clicking connect |
+| 3 | ✅ Wallet address displayed | Shows truncated address when connected |
+| 4 | ✅ Session persistence | Wallet stays connected after page refresh |
+| 5 | ✅ Disconnect works | Button changes to address, clicking disconnects |
+
+---
 
 ## Common Issues
 
-### Biometric prompt not appearing
+<details>
+<summary><b>🔴 Biometric prompt not appearing</b></summary>
 
 **Causes:**
 - Browser doesn't support WebAuthn
@@ -332,13 +446,33 @@ After completing this tutorial:
 - On desktop without biometrics, use a security key or phone as authenticator
 - Ensure you're on `localhost` or HTTPS
 
-### "Cannot read property of undefined" errors
+</details>
+
+<details>
+<summary><b>🔴 "Cannot read property of undefined" errors</b></summary>
 
 **Cause:** Provider not properly set up or component not wrapped.
 
 **Solution:** Ensure `LazorkitProvider` wraps all components using `useWallet()`.
 
-### Session not persisting
+```tsx
+// ❌ Wrong - ConnectButton outside provider
+<LazorkitProvider>
+  <App />
+</LazorkitProvider>
+<ConnectButton /> // This will fail!
+
+// ✅ Correct - ConnectButton inside provider
+<LazorkitProvider>
+  <App />
+  <ConnectButton /> // This works!
+</LazorkitProvider>
+```
+
+</details>
+
+<details>
+<summary><b>🟡 Session not persisting</b></summary>
 
 **Causes:**
 - localStorage blocked by browser settings
@@ -350,15 +484,42 @@ After completing this tutorial:
 - Use regular browsing mode
 - Ensure consistent domain
 
-### Connect fails silently
+</details>
+
+<details>
+<summary><b>🟡 Connect fails silently</b></summary>
 
 **Cause:** User cancelled the biometric prompt.
 
-**Solution:** This is expected behavior - no error is shown when user cancels.
+**Solution:** This is expected behavior - no error is shown when user cancels. You can optionally add a retry message.
+
+</details>
+
+---
 
 ## Next Steps
 
-Once you have passkey login working, proceed to [Tutorial 2: Gasless Transfer](./02-gasless-transfer.md) to learn how to send SOL without paying gas fees.
+<table>
+<tr>
+<td width="70%">
+
+Once you have passkey login working, proceed to **Tutorial 2: Gasless Transfer** to learn how to send SOL without paying gas fees.
+
+**What you'll learn:**
+- Building transfer instructions
+- Using Paymaster-sponsored transactions
+- Fee token selection (USDC vs SOL)
+
+</td>
+<td width="30%" align="center">
+
+[**Tutorial 2: Gasless Transfer →**](./02-gasless-transfer.md)
+
+</td>
+</tr>
+</table>
+
+---
 
 ## Technical Reference
 
@@ -367,13 +528,13 @@ Once you have passkey login working, proceed to [Tutorial 2: Gasless Transfer](.
 ```typescript
 interface UseWalletReturn {
   // State
-  isConnected: boolean;
-  isConnecting: boolean;
-  smartWalletPubkey: PublicKey | null;
+  isConnected: boolean;           // Wallet connection status
+  isConnecting: boolean;          // Connection in progress
+  smartWalletPubkey: PublicKey | null;  // Derived wallet address
 
   // Actions
-  connect: () => Promise<void>;
-  disconnect: () => Promise<void>;
+  connect: () => Promise<void>;   // Trigger passkey flow
+  disconnect: () => Promise<void>; // Clear session
   signAndSendTransaction: (params: TransactionParams) => Promise<string>;
 }
 ```
@@ -391,9 +552,21 @@ interface LazorkitProviderProps {
 }
 ```
 
+---
+
 ## Resources
 
-- [WebAuthn Specification](https://www.w3.org/TR/webauthn/)
-- [FIDO Alliance](https://fidoalliance.org/)
-- [Can I Use WebAuthn](https://caniuse.com/webauthn)
-- [LazorKit Documentation](https://docs.lazorkit.com/)
+| Resource | Link |
+|----------|------|
+| WebAuthn Specification | [w3.org/TR/webauthn](https://www.w3.org/TR/webauthn/) |
+| FIDO Alliance | [fidoalliance.org](https://fidoalliance.org/) |
+| Can I Use WebAuthn | [caniuse.com/webauthn](https://caniuse.com/webauthn) |
+| LazorKit Documentation | [docs.lazorkit.com](https://docs.lazorkit.com/) |
+
+---
+
+<div align="center">
+
+**[← Back to Tutorials](../README.md#-tutorials)** | **[Next: Gasless Transfer →](./02-gasless-transfer.md)**
+
+</div>
