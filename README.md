@@ -6,6 +6,7 @@ A practical code example demonstrating passkey-based wallet creation and gasless
 
 - **Passkey Authentication** - Create Solana wallets using Face ID, Touch ID, or Windows Hello
 - **Gasless Transactions** - Send SOL without paying gas fees (Paymaster covers costs)
+- **Payment Widget** - Drop-in payment component for merchants with QR code support
 - **Smart Wallet** - Program Derived Address (PDA) derived from your passkey
 - **Session Persistence** - Stay connected across page refreshes
 - **Modern Stack** - Built with Next.js 16, TypeScript, and Tailwind CSS
@@ -83,22 +84,30 @@ Lazorkit/
 │   ├── globals.css           # Global styles
 │   ├── passkey-login/        # Tutorial 1: Passkey authentication
 │   │   └── page.tsx
-│   └── gasless-transfer/     # Tutorial 2: Gasless transactions
+│   ├── gasless-transfer/     # Tutorial 2: Gasless transactions
+│   │   └── page.tsx
+│   └── payment-widget/       # Tutorial 3: Payment Widget
 │       └── page.tsx
 ├── components/               # Reusable UI components
 │   ├── ConnectButton.tsx     # Wallet connect/disconnect button
 │   ├── Navbar.tsx            # Navigation header
 │   ├── TransferForm.tsx      # SOL transfer form
 │   ├── WalletInfo.tsx        # Balance & address display
-│   └── Skeleton.tsx          # Loading placeholders
+│   ├── Skeleton.tsx          # Loading placeholders
+│   └── payment/              # Payment widget components
+│       ├── PaymentWidget.tsx # Main payment component
+│       └── PaymentStatus.tsx # Transaction status display
 ├── hooks/                    # Custom React hooks
-│   └── useBalance.ts         # SOL balance fetching
+│   ├── useBalance.ts         # SOL balance fetching
+│   └── usePayment.ts         # Payment logic hook
 ├── lib/                      # Utilities and constants
 │   ├── constants.ts          # Config exports, helpers
-│   └── env.ts                # Environment validation
+│   ├── env.ts                # Environment validation
+│   └── solana-pay.ts         # Solana Pay URL generation
 ├── docs/                     # Tutorial documentation
 │   ├── 01-passkey-login.md   # Passkey tutorial
-│   └── 02-gasless-transfer.md # Gasless tutorial
+│   ├── 02-gasless-transfer.md # Gasless tutorial
+│   └── 03-payment-widget.md  # Payment widget tutorial
 └── next.config.ts            # Next.js + Buffer polyfill
 ```
 
@@ -127,6 +136,19 @@ Key concepts:
 - Building transfer instructions
 - Paymaster-sponsored transactions
 - Fee token selection (USDC vs SOL)
+
+### Tutorial 3: Payment Widget
+
+Drop-in payment component for merchants to accept SOL payments.
+
+**[Read Tutorial 3 Documentation](docs/03-payment-widget.md)**
+
+Key concepts:
+
+- PaymentWidget component integration
+- QR code support (Solana Pay compatible)
+- Merchant customization and callbacks
+- Real-time payment status tracking
 
 ## SDK Reference
 
