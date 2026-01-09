@@ -4,8 +4,8 @@ import { useState } from "react";
 import { PaymentWidget } from "@/components/payment";
 import { PaymentResult } from "@/hooks/usePayment";
 
-// Demo merchant address (replace with your own for testing)
-const DEMO_MERCHANT_ADDRESS = "11111111111111111111111111111111"; // System program (for demo)
+// Merchant wallet address for receiving payments
+const DEMO_MERCHANT_ADDRESS = "2eT2TLGDRmP5KzCKcbZTnW9XDYiPMjB3TcmA9ofkMKLG";
 
 export default function PaymentWidgetPage() {
   // Demo configuration state
